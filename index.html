@@ -961,8 +961,33 @@ Place: [City Name]</pre>
             </div>
           </div>
 
+          <!-- Authorized Users Directory -->
+          <div id="au-directory-section" class="au-directory-section">
+            <div class="au-dir-header">
+              <span class="au-dir-badge">👥 OFFICIAL REGISTRY</span>
+              <h3 class="trn" data-key="au_dir_title">Authorized Users Directory</h3>
+              <p class="trn" data-key="au_dir_desc">Complete list of producers registered under Part B of the IP India GI Registry. Filter by product or district to find producers near you.</p>
+            </div>
+            <div class="au-dir-filters">
+              <input type="text" id="au-search" placeholder="Search by name or registration no." class="au-filter-input" />
+              <select id="au-product-filter" class="au-filter-select">
+                <option value="All">All GI Products</option>
+              </select>
+              <select id="au-district-filter" class="au-filter-select">
+                <option value="All">All Districts</option>
+              </select>
+            </div>
+            <div id="au-dir-stats" class="au-dir-stat-line"></div>
+            <div id="au-dir-grid" class="au-dir-grid">
+              <!-- Populated by JS -->
+            </div>
+            <div id="au-dir-load-more" class="load-more-container hidden">
+              <button id="au-dir-load-more-btn" class="load-more-btn">Load More</button>
+            </div>
+          </div>
+
           <!-- Pre-Registration Pipeline Tracker -->
-          <div class="pipeline-section">
+          <div class="pipeline-section" id="pipeline-section">
             <h3 class="trn" data-key="pipe_title">Upcoming UP GIs: Pre-Registration Pipeline (34 Products)</h3>
             <p class="trn" data-key="pipe_desc">NABARD UP Regional Office currently sponsors and facilitates the registration of 34 additional heritage crafts in Uttar Pradesh. Track their current progress in the official GI Registry pipeline.</p>
             <div id="pipeline-tracker-grid" class="pipeline-tracker-grid">
