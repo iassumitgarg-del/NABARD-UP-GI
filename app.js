@@ -185,6 +185,8 @@ const TRANSLATIONS = {
     btn_verify_batch: 'Verify Batch Trace',
     map_title: 'Heritage Craft Map of Uttar Pradesh',
     map_desc: 'Click on any active district hotspot to explore its native Geographical Indication (GI) products.',
+    au_dir_title: 'Authorized Users Directory',
+    au_dir_desc: 'Complete list of producers registered under Part B of the IP India GI Registry. Filter by product or district to find producers near you.',
     pipe_title: 'Upcoming UP GIs: Pre-Registration Pipeline (34 Products)',
     pipe_desc: 'NABARD UP Regional Office currently sponsors and facilitates the registration of 34 additional heritage crafts in Uttar Pradesh. Track their current progress in the official GI Registry pipeline.',
     guide_title: 'How to Apply for GI Authorized User Registration',
@@ -302,6 +304,8 @@ const TRANSLATIONS = {
     btn_verify_batch: 'बैच सत्यापित करें',
     map_title: 'उत्तर प्रदेश का ऐतिहासिक हस्तशिल्प मानचित्र',
     map_desc: 'उत्पादों को देखने के लिए किसी भी सक्रिय जिले के हॉटस्पॉट पर क्लिक करें।',
+    au_dir_title: 'अधिकृत उपयोगकर्ता निर्देशिका',
+    au_dir_desc: 'आईपी इंडिया जीआई रजिस्ट्री के भाग बी के अंतर्गत पंजीकृत उत्पादकों की पूरी सूची। अपने नजदीकी उत्पादकों को खोजने के लिए उत्पाद या जिले के अनुसार फ़िल्टर करें।',
     pipe_title: 'आगामी यूपी जीआई: पंजीकरण पाइपलाइन (34 उत्पाद)',
     pipe_desc: 'नाबार्ड यूपी क्षेत्रीय कार्यालय वर्तमान में उत्तर प्रदेश में 34 अतिरिक्त शिल्पों के पंजीकरण का वित्तपोषण कर रहा है। आधिकारिक जीआई रजिस्ट्री पाइपलाइन में उनकी प्रगति को ट्रैक करें।',
     guide_title: 'जीआई अधिकृत उपयोगकर्ता पंजीकरण के लिए आवेदन कैसे करें',
@@ -568,6 +572,8 @@ document.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   setupKeyboardShortcuts();
   setupMapTooltipEvents();
+  setupStatCardLinks();
+  initAUDirectory();
 
   // 2. Parse URL query string on load
   const urlParams = new URLSearchParams(window.location.search);
@@ -2275,6 +2281,208 @@ function setupKeyboardShortcuts() {
 }
 
 // ── TAB SWITCH LOGIC ──
+// ── STAT CARD NAVIGATION LINKS ──────────────────────────────────────────────
+function setupStatCardLinks() {
+  // Registered GIs (55) → Browse / Catalogue tab
+  const registeredCard = document.querySelector('[data-stat="registered"]');
+  if (registeredCard) {
+    registeredCard.style.cursor = 'pointer';
+    registeredCard.title = 'Browse all registered GI products';
+    registeredCard.addEventListener('click', () => {
+      switchTab('catalogue');
+      setTimeout(() => {
+        document.getElementById('product-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
+    });
+  }
+
+  // Under Process (34) → About tab → Pipeline section
+  const pipelineCard = document.querySelector('[data-stat="pipeline"]');
+  if (pipelineCard) {
+    pipelineCard.style.cursor = 'pointer';
+    pipelineCard.title = 'View GI products under registration pipeline';
+    pipelineCard.addEventListener('click', () => {
+      switchTab('about');
+      setTimeout(() => {
+        document.getElementById('pipeline-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 200);
+    });
+  }
+
+  // Authorized Users → About tab → AU Directory section
+  const usersCard = document.querySelector('[data-stat="users"]');
+  if (usersCard) {
+    usersCard.style.cursor = 'pointer';
+    usersCard.title = 'View full Authorized Users directory';
+    usersCard.addEventListener('click', () => {
+      switchTab('about');
+      setTimeout(() => {
+        document.getElementById('au-directory-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 200);
+    });
+  }
+
+  // Also make NABARD Sanctions card clickable → catalogue (shows all 89 NABARD-supported)
+  const sanctionsCard = document.querySelector('[data-stat="sanctions"]');
+  if (sanctionsCard) {
+    sanctionsCard.style.cursor = 'pointer';
+    sanctionsCard.title = 'View NABARD-supported GI products';
+    sanctionsCard.addEventListener('click', () => {
+      switchTab('catalogue');
+      setTimeout(() => {
+        document.getElementById('product-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
+    });
+  }
+}
+
+// ── AUTHORIZED USERS DIRECTORY ───────────────────────────────────────────────
+const AU_PAGE_SIZE = 50;
+let auDirState = {
+  search: '',
+  product: 'All',
+  district: 'All',
+  page: 1,
+  filtered: []
+};
+
+function initAUDirectory() {
+  // Populate product filter dropdown
+  const prodSelect = document.getElementById('au-product-filter');
+  const distSelect = document.getElementById('au-district-filter');
+  if (!prodSelect || !distSelect) return;
+
+  // Get unique product names (sorted)
+  const productNames = [...new Set(
+    state.authorizedUsers
+      .filter(u => u.status === 'approved')
+      .map(u => {
+        const prod = GI_PRODUCTS.find(p => p.id === u.productId);
+        return prod ? prod.name : u.productId;
+      })
+  )].sort();
+
+  productNames.forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    prodSelect.appendChild(opt);
+  });
+
+  // Get unique districts
+  const districts = [...new Set(
+    state.authorizedUsers
+      .filter(u => u.status === 'approved' && u.district)
+      .map(u => u.district)
+  )].sort();
+
+  districts.forEach(d => {
+    const opt = document.createElement('option');
+    opt.value = d;
+    opt.textContent = d;
+    distSelect.appendChild(opt);
+  });
+
+  // Event listeners for filters
+  document.getElementById('au-search')?.addEventListener('input', e => {
+    auDirState.search = e.target.value.toLowerCase().trim();
+    auDirState.page = 1;
+    renderAUDirectory();
+  });
+  prodSelect.addEventListener('change', e => {
+    auDirState.product = e.target.value;
+    auDirState.page = 1;
+    renderAUDirectory();
+  });
+  distSelect.addEventListener('change', e => {
+    auDirState.district = e.target.value;
+    auDirState.page = 1;
+    renderAUDirectory();
+  });
+  document.getElementById('au-dir-load-more-btn')?.addEventListener('click', () => {
+    auDirState.page++;
+    renderAUDirectory(true);
+  });
+
+  renderAUDirectory();
+}
+
+function renderAUDirectory(append = false) {
+  const grid = document.getElementById('au-dir-grid');
+  const statsEl = document.getElementById('au-dir-stats');
+  const loadMoreBtn = document.getElementById('au-dir-load-more');
+  if (!grid) return;
+
+  const approved = state.authorizedUsers.filter(u => u.status === 'approved');
+
+  // Filter
+  const filtered = approved.filter(u => {
+    const prod = GI_PRODUCTS.find(p => p.id === u.productId);
+    const prodName = prod ? prod.name : u.productId;
+
+    if (auDirState.search) {
+      const hay = `${u.businessName} ${u.registrationNo} ${u.artisanName || ''} ${u.address || ''}`.toLowerCase();
+      if (!hay.includes(auDirState.search)) return false;
+    }
+    if (auDirState.product !== 'All' && prodName !== auDirState.product) return false;
+    if (auDirState.district !== 'All' && u.district !== auDirState.district) return false;
+    return true;
+  });
+
+  auDirState.filtered = filtered;
+  const total = filtered.length;
+  const showing = Math.min(auDirState.page * AU_PAGE_SIZE, total);
+
+  // Stats line
+  if (statsEl) {
+    statsEl.textContent = state.language === 'hi'
+      ? `${total.toLocaleString('en-IN')} अधिकृत उपयोगकर्ता मिले — ${showing} दिखाए जा रहे हैं`
+      : `${total.toLocaleString('en-IN')} authorized users found — showing ${showing}`;
+  }
+
+  const slice = filtered.slice(0, showing);
+
+  if (!append) grid.innerHTML = '';
+
+  const startIdx = append ? (auDirState.page - 1) * AU_PAGE_SIZE : 0;
+  const newSlice = filtered.slice(startIdx, showing);
+
+  newSlice.forEach(u => {
+    const prod = GI_PRODUCTS.find(p => p.id === u.productId);
+    const prodName = prod ? prod.name : u.productId;
+
+    const card = document.createElement('div');
+    card.className = 'au-dir-card';
+    card.innerHTML = `
+      <div class="au-dir-card-top">
+        <span class="au-dir-reg-no">AU-${u.auPartBNo || u.registrationNo?.replace('AU-','')}</span>
+        <span class="au-dir-product">${prodName}</span>
+      </div>
+      <div class="au-dir-name">${u.businessName || u.artisanName || '—'}</div>
+      <div class="au-dir-meta">
+        <span class="au-dir-district">📍 ${u.district || '—'}</span>
+        ${u.registrationDate ? `<span class="au-dir-date">📅 ${u.registrationDate}</span>` : ''}
+        ${u.address ? `<span class="au-dir-addr" title="${u.address}">🏠 ${u.address.substring(0,60)}${u.address.length > 60 ? '…' : ''}</span>` : ''}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  // Load More button
+  if (loadMoreBtn) {
+    if (showing < total) {
+      loadMoreBtn.classList.remove('hidden');
+      const remaining = total - showing;
+      document.getElementById('au-dir-load-more-btn').textContent =
+        state.language === 'hi'
+          ? `और लोड करें (${remaining} शेष)`
+          : `Load More (${remaining} remaining)`;
+    } else {
+      loadMoreBtn.classList.add('hidden');
+    }
+  }
+}
+
 function switchTab(tabName) {
   state.activeTab = tabName;
   
