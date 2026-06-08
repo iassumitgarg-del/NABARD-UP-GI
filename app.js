@@ -608,42 +608,68 @@ function organizeCatalogueSections() {
 
 // ── ANIMATE STATS DASHBOARD ──
 function animateStatsDashboard() {
+  // ── LIVE COMPUTED STATS ──────────────────────────────────────────
+  // All values derived from actual data — no hardcoded numbers.
+  // Adding a product to GI_PRODUCTS, moving one from pipeline, or
+  // uploading new AU records will automatically update these figures.
+
+  const registeredGIs  = GI_PRODUCTS.length;
+  const inPipeline     = UPCOMING_GI_PIPELINE.length;
+  const totalSanctions = registeredGIs + inPipeline;   // NABARD-facilitated total
+
+  // Authorised users: live count from approved records
+  const approvedAUs        = state.authorizedUsers.filter(u => u.status === 'approved');
+  const totalAUs           = approvedAUs.length;
+  const registryAUs        = approvedAUs.filter(u => u.isOfficialRecord).length;
+  const portalAUs          = approvedAUs.filter(u => !u.isOfficialRecord).length;
+
+  // Push computed values into data-target so the animator picks them up
+  const statTargets = {
+    '[data-stat="sanctions"] .stat-number':  totalSanctions,
+    '[data-stat="registered"] .stat-number': registeredGIs,
+    '[data-stat="pipeline"] .stat-number':   inPipeline,
+    '[data-stat="users"] .stat-number':      totalAUs,
+  };
+  Object.entries(statTargets).forEach(([sel, val]) => {
+    const el = document.querySelector(sel);
+    if (el) el.setAttribute('data-target', val);
+  });
+
+  // Update sub-line in the Authorised Users card dynamically
+  const auSubEl = document.querySelector('.au-sub-stats');
+  if (auSubEl) {
+    auSubEl.innerHTML =
+      `<span style="font-weight:700;color:rgba(255,255,255,0.9);">${registryAUs.toLocaleString('en-IN')}</span> ` +
+      (state.language === 'hi' ? 'रजिस्ट्री में पंजीकृत' : 'Registered in Registry') + `<br>` +
+      `<span style="font-weight:700;color:rgba(255,255,255,0.9);">${portalAUs.toLocaleString('en-IN')}</span> ` +
+      (state.language === 'hi' ? 'पोर्टल पर पंजीकृत' : 'Self-registered on Portal');
+  }
+
+  // ── ANIMATE COUNTER ─────────────────────────────────────────────
   const statNumbers = document.querySelectorAll('.stat-number');
-  
   statNumbers.forEach(elem => {
     const target = parseInt(elem.getAttribute('data-target'), 10);
     if (isNaN(target)) return;
-    
-    const duration = 1200; // 1.2 seconds animation
+
+    const duration  = 1200;
     const startTime = performance.now();
-    
+
     function update(currentTime) {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      // Easing out quad
-      const easeProgress = progress * (2 - progress);
-      const currentVal = Math.floor(easeProgress * target);
-      
-      elem.textContent = currentVal.toLocaleString('en-IN');
-      
-      if (progress < 1) {
-        requestAnimationFrame(update);
-      } else {
-        elem.textContent = target.toLocaleString('en-IN');
-      }
+      const elapsed     = currentTime - startTime;
+      const progress    = Math.min(elapsed / duration, 1);
+      const easeProgress = progress * (2 - progress);   // ease-out quad
+      elem.textContent  = Math.floor(easeProgress * target).toLocaleString('en-IN');
+      if (progress < 1) requestAnimationFrame(update);
+      else              elem.textContent = target.toLocaleString('en-IN');
     }
-    
     requestAnimationFrame(update);
   });
 
-  // Also animate the progress bar width
+  // Progress bar (GI pipeline overview visual)
   const progressFill = document.querySelector('.stat-progress-fill');
   if (progressFill) {
     const progressVal = progressFill.getAttribute('data-progress');
-    setTimeout(() => {
-      progressFill.style.width = `${progressVal}%`;
-    }, 250);
+    setTimeout(() => { progressFill.style.width = `${progressVal}%`; }, 250);
   }
 }
 
