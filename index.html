@@ -238,257 +238,196 @@
           </div>
           <div class="map-wrapper">
             <svg id="up-svg-map" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid meet">
-              <!-- UP Boundary silhouette -->
-              <path class="state-outline" d="M 80,40 L 100,50 L 120,70 L 150,80 L 200,120 L 240,100 L 300,150 L 350,160 L 390,150 L 440,120 L 470,130 L 500,190 L 510,220 L 470,250 L 440,270 L 430,330 L 400,310 L 360,290 L 320,310 L 260,300 L 240,310 L 200,290 L 170,310 L 160,360 L 130,360 L 140,300 L 160,260 L 130,210 L 90,200 L 60,170 L 40,120 L 50,80 Z" />
+              <!-- UP Boundary silhouette — approximate shape matching geographic district layout -->
+              <path class="state-outline" d="M 55,25 L 80,28 L 120,32 L 170,38 L 225,42 L 270,48 L 300,52 L 340,48 L 390,44 L 430,50 L 465,60 L 510,80 L 545,110 L 555,150 L 548,185 L 535,220 L 530,255 L 520,280 L 500,300 L 480,320 L 455,340 L 420,355 L 385,360 L 340,355 L 300,348 L 265,340 L 230,348 L 200,355 L 165,358 L 135,355 L 110,340 L 90,318 L 72,295 L 58,268 L 45,240 L 38,210 L 32,178 L 30,148 L 34,115 L 40,80 L 48,52 Z" />
               
-              <!-- Hotspots -->
-              <g class="map-hotspot" data-district="Muzaffarnagar" tabindex="0" role="button" aria-label="Muzaffarnagar district hotspot">
-                <circle class="pulse-ring" cx="80" cy="70" r="10" />
-                <circle class="pulse-core" cx="80" cy="70" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Baghpat" tabindex="0" role="button" aria-label="Baghpat district hotspot">
-                <circle class="pulse-ring" cx="65" cy="100" r="10" />
-                <circle class="pulse-core" cx="65" cy="100" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Aligarh" tabindex="0" role="button" aria-label="Aligarh district hotspot">
-                <circle class="pulse-ring" cx="105" cy="150" r="10" />
-                <circle class="pulse-core" cx="105" cy="150" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Hathras" tabindex="0" role="button" aria-label="Hathras district hotspot">
-                <circle class="pulse-ring" cx="95" cy="170" r="10" />
-                <circle class="pulse-core" cx="95" cy="170" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Agra" tabindex="0" role="button" aria-label="Agra district hotspot">
-                <circle class="pulse-ring" cx="85" cy="200" r="10" />
-                <circle class="pulse-core" cx="85" cy="200" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Mathura" tabindex="0" role="button" aria-label="Mathura district hotspot">
-                <circle class="pulse-ring" cx="75" cy="160" r="10" />
-                <circle class="pulse-core" cx="75" cy="160" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Bijnore" tabindex="0" role="button" aria-label="Bijnore district hotspot">
-                <circle class="pulse-ring" cx="115" cy="70" r="10" />
-                <circle class="pulse-core" cx="115" cy="70" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Amroha" tabindex="0" role="button" aria-label="Amroha district hotspot">
-                <circle class="pulse-ring" cx="135" cy="100" r="10" />
-                <circle class="pulse-core" cx="135" cy="100" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Moradabad" tabindex="0" role="button" aria-label="Moradabad district hotspot">
-                <circle class="pulse-ring" cx="155" cy="100" r="10" />
-                <circle class="pulse-core" cx="155" cy="100" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Sambhal" tabindex="0" role="button" aria-label="Sambhal district hotspot">
-                <circle class="pulse-ring" cx="145" cy="120" r="10" />
-                <circle class="pulse-core" cx="145" cy="120" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Bareilley" tabindex="0" role="button" aria-label="Bareilly district hotspot">
-                <circle class="pulse-ring" cx="195" cy="130" r="10" />
-                <circle class="pulse-core" cx="195" cy="130" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Pilibhit" tabindex="0" role="button" aria-label="Pilibhit district hotspot">
-                <circle class="pulse-ring" cx="225" cy="110" r="10" />
-                <circle class="pulse-core" cx="225" cy="110" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Hapur" tabindex="0" role="button" aria-label="Hapur district hotspot">
-                <circle class="pulse-ring" cx="95" cy="110" r="10" />
-                <circle class="pulse-core" cx="95" cy="110" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Etah" tabindex="0" role="button" aria-label="Etah district hotspot">
-                <circle class="pulse-ring" cx="125" cy="160" r="10" />
-                <circle class="pulse-core" cx="125" cy="160" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Mainpuri" tabindex="0" role="button" aria-label="Mainpuri district hotspot">
-                <circle class="pulse-ring" cx="155" cy="190" r="10" />
-                <circle class="pulse-core" cx="155" cy="190" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Jalaun" tabindex="0" role="button" aria-label="Jalaun district hotspot">
-                <circle class="pulse-ring" cx="175" cy="250" r="10" />
-                <circle class="pulse-core" cx="175" cy="250" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Kanpur" tabindex="0" role="button" aria-label="Kanpur district hotspot">
-                <circle class="pulse-ring" cx="215" cy="220" r="10" />
-                <circle class="pulse-core" cx="215" cy="220" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Varanasi" tabindex="0" role="button" aria-label="Varanasi district hotspot">
-                <circle class="pulse-ring" cx="405" cy="250" r="10" />
-                <circle class="pulse-core" cx="405" cy="250" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Mirzapur" tabindex="0" role="button" aria-label="Mirzapur district hotspot">
-                <circle class="pulse-ring" cx="395" cy="290" r="10" />
-                <circle class="pulse-core" cx="395" cy="290" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Bhadohi" tabindex="0" role="button" aria-label="Bhadohi district hotspot">
-                <circle class="pulse-ring" cx="385" cy="260" r="10" />
-                <circle class="pulse-core" cx="385" cy="260" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Ghazipur" tabindex="0" role="button" aria-label="Ghazipur district hotspot">
-                <circle class="pulse-ring" cx="455" cy="230" r="10" />
-                <circle class="pulse-core" cx="455" cy="230" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Gorakhpur" tabindex="0" role="button" aria-label="Gorakhpur district hotspot">
-                <circle class="pulse-ring" cx="445" cy="150" r="10" />
-                <circle class="pulse-core" cx="445" cy="150" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="SK Nagar" tabindex="0" role="button" aria-label="Sant Kabir Nagar district hotspot">
-                <circle class="pulse-ring" cx="415" cy="160" r="10" />
-                <circle class="pulse-core" cx="415" cy="160" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Jhansi" tabindex="0" role="button" aria-label="Jhansi district hotspot">
-                <circle class="pulse-ring" cx="145" cy="320" r="10" />
-                <circle class="pulse-core" cx="145" cy="320" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Mahoba" tabindex="0" role="button" aria-label="Mahoba district hotspot">
-                <circle class="pulse-ring" cx="195" cy="310" r="10" />
-                <circle class="pulse-core" cx="195" cy="310" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Banda" tabindex="0" role="button" aria-label="Banda district hotspot">
-                <circle class="pulse-ring" cx="235" cy="300" r="10" />
-                <circle class="pulse-core" cx="235" cy="300" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Chitrakoot" tabindex="0" role="button" aria-label="Chitrakoot district hotspot">
-                <circle class="pulse-ring" cx="265" cy="320" r="10" />
-                <circle class="pulse-core" cx="265" cy="320" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Lakhimpur" tabindex="0" role="button" aria-label="Lakhimpur Kheri district hotspot">
-                <circle class="pulse-ring" cx="245" cy="100" r="10" />
-                <circle class="pulse-core" cx="245" cy="100" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Siddharthnagar" tabindex="0" role="button" aria-label="Siddharthnagar district hotspot">
-                <circle class="pulse-ring" cx="385" cy="140" r="10" />
-                <circle class="pulse-core" cx="385" cy="140" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Allahabad" tabindex="0" role="button" aria-label="Prayagraj district hotspot">
-                <circle class="pulse-ring" cx="315" cy="280" r="10" />
-                <circle class="pulse-core" cx="315" cy="280" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Gonda" tabindex="0" role="button" aria-label="Gonda district hotspot">
-                <circle class="pulse-ring" cx="345" cy="150" r="10" />
-                <circle class="pulse-core" cx="345" cy="150" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Pratapgarh" tabindex="0" role="button" aria-label="Pratapgarh district hotspot">
-                <circle class="pulse-ring" cx="325" cy="240" r="10" />
-                <circle class="pulse-core" cx="325" cy="240" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Farrukhabad" tabindex="0" role="button" aria-label="Farrukhabad district hotspot">
-                <circle class="pulse-ring" cx="175" cy="170" r="10" />
-                <circle class="pulse-core" cx="175" cy="170" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Lucknow" tabindex="0" role="button" aria-label="Lucknow district hotspot">
-                <circle class="pulse-ring" cx="245" cy="170" r="10" />
-                <circle class="pulse-core" cx="245" cy="170" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Sitapur" tabindex="0" role="button" aria-label="Sitapur district hotspot">
-                <circle class="pulse-ring" cx="235" cy="140" r="10" />
-                <circle class="pulse-core" cx="235" cy="140" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Jaunpur" tabindex="0" role="button" aria-label="Jaunpur district hotspot">
-                <circle class="pulse-ring" cx="365" cy="240" r="10" />
-                <circle class="pulse-core" cx="365" cy="240" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Rampur" tabindex="0" role="button" aria-label="Rampur district hotspot">
-                <circle class="pulse-ring" cx="165" cy="80" r="10" />
-                <circle class="pulse-core" cx="165" cy="80" r="5" />
-              </g>
+              <!-- Hotspots — coordinates derived from actual UP district lat/lon centroids
+                   mapped to SVG viewBox 600×400 (lat 23.5–30.4°N, lon 77.1–84.6°E) -->
               <g class="map-hotspot" data-district="Saharanpur" tabindex="0" role="button" aria-label="Saharanpur district hotspot">
-                <circle class="pulse-ring" cx="95" cy="40" r="10" />
-                <circle class="pulse-core" cx="95" cy="40" r="5" />
+                <circle class="pulse-ring" cx="62" cy="42" r="10" /><circle class="pulse-core" cx="62" cy="42" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Muzaffarnagar" tabindex="0" role="button" aria-label="Muzaffarnagar district hotspot">
+                <circle class="pulse-ring" cx="73" cy="69" r="10" /><circle class="pulse-core" cx="73" cy="69" r="5" />
               </g>
               <g class="map-hotspot" data-district="Meerut" tabindex="0" role="button" aria-label="Meerut district hotspot">
-                <circle class="pulse-ring" cx="95" cy="90" r="10" />
-                <circle class="pulse-core" cx="95" cy="90" r="5" />
+                <circle class="pulse-ring" cx="73" cy="94" r="10" /><circle class="pulse-core" cx="73" cy="94" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Baghpat" tabindex="0" role="button" aria-label="Baghpat district hotspot">
+                <circle class="pulse-ring" cx="39" cy="96" r="10" /><circle class="pulse-core" cx="39" cy="96" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Hapur" tabindex="0" role="button" aria-label="Hapur district hotspot">
+                <circle class="pulse-ring" cx="79" cy="107" r="10" /><circle class="pulse-core" cx="79" cy="107" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Bijnore" tabindex="0" role="button" aria-label="Bijnore district hotspot">
+                <circle class="pulse-ring" cx="105" cy="74" r="10" /><circle class="pulse-core" cx="105" cy="74" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Amroha" tabindex="0" role="button" aria-label="Amroha district hotspot">
+                <circle class="pulse-ring" cx="129" cy="98" r="10" /><circle class="pulse-core" cx="129" cy="98" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Moradabad" tabindex="0" role="button" aria-label="Moradabad district hotspot">
+                <circle class="pulse-ring" cx="151" cy="101" r="10" /><circle class="pulse-core" cx="151" cy="101" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Rampur" tabindex="0" role="button" aria-label="Rampur district hotspot">
+                <circle class="pulse-ring" cx="168" cy="103" r="10" /><circle class="pulse-core" cx="168" cy="103" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Sambhal" tabindex="0" role="button" aria-label="Sambhal district hotspot">
+                <circle class="pulse-ring" cx="136" cy="115" r="10" /><circle class="pulse-core" cx="136" cy="115" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Pilibhit" tabindex="0" role="button" aria-label="Pilibhit district hotspot">
+                <circle class="pulse-ring" cx="224" cy="112" r="10" /><circle class="pulse-core" cx="224" cy="112" r="5" />
               </g>
               <g class="map-hotspot" data-district="Bulandshahr" tabindex="0" role="button" aria-label="Bulandshahr district hotspot">
-                <circle class="pulse-ring" cx="115" cy="120" r="10" />
-                <circle class="pulse-core" cx="115" cy="120" r="5" />
+                <circle class="pulse-ring" cx="84" cy="124" r="10" /><circle class="pulse-core" cx="84" cy="124" r="5" />
               </g>
-              <g class="map-hotspot" data-district="Kannauj" tabindex="0" role="button" aria-label="Kannauj district hotspot">
-                <circle class="pulse-ring" cx="195" cy="190" r="10" />
-                <circle class="pulse-core" cx="195" cy="190" r="5" />
+              <g class="map-hotspot" data-district="Bareilley" tabindex="0" role="button" aria-label="Bareilly district hotspot">
+                <circle class="pulse-ring" cx="197" cy="127" r="10" /><circle class="pulse-core" cx="197" cy="127" r="5" />
               </g>
-              <g class="map-hotspot" data-district="Fatehpur" tabindex="0" role="button" aria-label="Fatehpur district hotspot">
-                <circle class="pulse-ring" cx="255" cy="250" r="10" />
-                <circle class="pulse-core" cx="255" cy="250" r="5" />
+              <g class="map-hotspot" data-district="Lakhimpur" tabindex="0" role="button" aria-label="Lakhimpur Kheri district hotspot">
+                <circle class="pulse-ring" cx="294" cy="148" r="10" /><circle class="pulse-core" cx="294" cy="148" r="5" />
               </g>
-              <g class="map-hotspot" data-district="Hamirpur" tabindex="0" role="button" aria-label="Hamirpur district hotspot">
-                <circle class="pulse-ring" cx="215" cy="280" r="10" />
-                <circle class="pulse-core" cx="215" cy="280" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Lalitpur" tabindex="0" role="button" aria-label="Lalitpur district hotspot">
-                <circle class="pulse-ring" cx="135" cy="370" r="10" />
-                <circle class="pulse-core" cx="135" cy="370" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Sonbhadra" tabindex="0" role="button" aria-label="Sonbhadra district hotspot">
-                <circle class="pulse-ring" cx="435" cy="330" r="10" />
-                <circle class="pulse-core" cx="435" cy="330" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Ballia" tabindex="0" role="button" aria-label="Ballia district hotspot">
-                <circle class="pulse-ring" cx="475" cy="220" r="10" />
-                <circle class="pulse-core" cx="475" cy="220" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Azamgarh" tabindex="0" role="button" aria-label="Azamgarh district hotspot">
-                <circle class="pulse-ring" cx="415" cy="220" r="10" />
-                <circle class="pulse-core" cx="415" cy="220" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Mau" tabindex="0" role="button" aria-label="Mau district hotspot">
-                <circle class="pulse-ring" cx="435" cy="220" r="10" />
-                <circle class="pulse-core" cx="435" cy="220" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Deoria" tabindex="0" role="button" aria-label="Deoria district hotspot">
-                <circle class="pulse-ring" cx="475" cy="170" r="10" />
-                <circle class="pulse-core" cx="475" cy="170" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Kushinagar" tabindex="0" role="button" aria-label="Kushinagar district hotspot">
-                <circle class="pulse-ring" cx="485" cy="150" r="10" />
-                <circle class="pulse-core" cx="485" cy="150" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Mahrajganj" tabindex="0" role="button" aria-label="Maharajganj district hotspot">
-                <circle class="pulse-ring" cx="455" cy="120" r="10" />
-                <circle class="pulse-core" cx="455" cy="120" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Basti" tabindex="0" role="button" aria-label="Basti district hotspot">
-                <circle class="pulse-ring" cx="405" cy="170" r="10" />
-                <circle class="pulse-core" cx="405" cy="170" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Faizabad" tabindex="0" role="button" aria-label="Ayodhya district hotspot">
-                <circle class="pulse-ring" cx="345" cy="180" r="10" />
-                <circle class="pulse-core" cx="345" cy="180" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Amethi" tabindex="0" role="button" aria-label="Amethi district hotspot">
-                <circle class="pulse-ring" cx="315" cy="210" r="10" />
-                <circle class="pulse-core" cx="315" cy="210" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Sultanpur" tabindex="0" role="button" aria-label="Sultanpur district hotspot">
-                <circle class="pulse-ring" cx="335" cy="210" r="10" />
-                <circle class="pulse-core" cx="335" cy="210" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Bahraich" tabindex="0" role="button" aria-label="Bahraich district hotspot">
-                <circle class="pulse-ring" cx="305" cy="120" r="10" />
-                <circle class="pulse-core" cx="305" cy="120" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Shravasti" tabindex="0" role="button" aria-label="Shravasti district hotspot">
-                <circle class="pulse-ring" cx="335" cy="110" r="10" />
-                <circle class="pulse-core" cx="335" cy="110" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Balrampur" tabindex="0" role="button" aria-label="Balrampur district hotspot">
-                <circle class="pulse-ring" cx="365" cy="120" r="10" />
-                <circle class="pulse-core" cx="365" cy="120" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Barabanki" tabindex="0" role="button" aria-label="Barabanki district hotspot">
-                <circle class="pulse-ring" cx="295" cy="170" r="10" />
-                <circle class="pulse-core" cx="295" cy="170" r="5" />
-              </g>
-              <g class="map-hotspot" data-district="Rae Bareli" tabindex="0" role="button" aria-label="Rae Bareli district hotspot">
-                <circle class="pulse-ring" cx="285" cy="210" r="10" />
-                <circle class="pulse-core" cx="285" cy="210" r="5" />
+              <g class="map-hotspot" data-district="Aligarh" tabindex="0" role="button" aria-label="Aligarh district hotspot">
+                <circle class="pulse-ring" cx="101" cy="151" r="10" /><circle class="pulse-core" cx="101" cy="151" r="5" />
               </g>
               <g class="map-hotspot" data-district="Hardoi" tabindex="0" role="button" aria-label="Hardoi district hotspot">
-                <circle class="pulse-ring" cx="205" cy="150" r="10" />
-                <circle class="pulse-core" cx="205" cy="150" r="5" />
+                <circle class="pulse-ring" cx="248" cy="177" r="10" /><circle class="pulse-core" cx="248" cy="177" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Shravasti" tabindex="0" role="button" aria-label="Shravasti district hotspot">
+                <circle class="pulse-ring" cx="355" cy="159" r="10" /><circle class="pulse-core" cx="355" cy="159" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Bahraich" tabindex="0" role="button" aria-label="Bahraich district hotspot">
+                <circle class="pulse-ring" cx="354" cy="168" r="10" /><circle class="pulse-core" cx="354" cy="168" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Sitapur" tabindex="0" role="button" aria-label="Sitapur district hotspot">
+                <circle class="pulse-ring" cx="288" cy="168" r="10" /><circle class="pulse-core" cx="288" cy="168" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Etah" tabindex="0" role="button" aria-label="Etah district hotspot">
+                <circle class="pulse-ring" cx="143" cy="168" r="10" /><circle class="pulse-core" cx="143" cy="168" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Farrukhabad" tabindex="0" role="button" aria-label="Farrukhabad district hotspot">
+                <circle class="pulse-ring" cx="209" cy="177" r="10" /><circle class="pulse-core" cx="209" cy="177" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Siddharthnagar" tabindex="0" role="button" aria-label="Siddharthnagar district hotspot">
+                <circle class="pulse-ring" cx="460" cy="182" r="10" /><circle class="pulse-core" cx="460" cy="182" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Hathras" tabindex="0" role="button" aria-label="Hathras district hotspot">
+                <circle class="pulse-ring" cx="98" cy="167" r="10" /><circle class="pulse-core" cx="98" cy="167" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Mathura" tabindex="0" role="button" aria-label="Mathura district hotspot">
+                <circle class="pulse-ring" cx="71" cy="171" r="10" /><circle class="pulse-core" cx="71" cy="171" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Balrampur" tabindex="0" role="button" aria-label="Balrampur district hotspot">
+                <circle class="pulse-ring" cx="396" cy="175" r="10" /><circle class="pulse-core" cx="396" cy="175" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Gonda" tabindex="0" role="button" aria-label="Gonda district hotspot">
+                <circle class="pulse-ring" cx="380" cy="191" r="10" /><circle class="pulse-core" cx="380" cy="191" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Mainpuri" tabindex="0" role="button" aria-label="Mainpuri district hotspot">
+                <circle class="pulse-ring" cx="168" cy="185" r="10" /><circle class="pulse-core" cx="168" cy="185" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Agra" tabindex="0" role="button" aria-label="Agra district hotspot">
+                <circle class="pulse-ring" cx="96" cy="188" r="10" /><circle class="pulse-core" cx="96" cy="188" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Kannauj" tabindex="0" role="button" aria-label="Kannauj district hotspot">
+                <circle class="pulse-ring" cx="233" cy="195" r="10" /><circle class="pulse-core" cx="233" cy="195" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Barabanki" tabindex="0" role="button" aria-label="Barabanki district hotspot">
+                <circle class="pulse-ring" cx="324" cy="201" r="10" /><circle class="pulse-core" cx="324" cy="201" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Faizabad" tabindex="0" role="button" aria-label="Ayodhya district hotspot">
+                <circle class="pulse-ring" cx="394" cy="209" r="10" /><circle class="pulse-core" cx="394" cy="209" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Basti" tabindex="0" role="button" aria-label="Basti district hotspot">
+                <circle class="pulse-ring" cx="435" cy="208" r="10" /><circle class="pulse-core" cx="435" cy="208" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="SK Nagar" tabindex="0" role="button" aria-label="Sant Kabir Nagar district hotspot">
+                <circle class="pulse-ring" cx="460" cy="208" r="10" /><circle class="pulse-core" cx="460" cy="208" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Gorakhpur" tabindex="0" role="button" aria-label="Gorakhpur district hotspot">
+                <circle class="pulse-ring" cx="481" cy="210" r="10" /><circle class="pulse-core" cx="481" cy="210" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Kushinagar" tabindex="0" role="button" aria-label="Kushinagar district hotspot">
+                <circle class="pulse-ring" cx="520" cy="211" r="10" /><circle class="pulse-core" cx="520" cy="211" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Deoria" tabindex="0" role="button" aria-label="Deoria district hotspot">
+                <circle class="pulse-ring" cx="511" cy="223" r="10" /><circle class="pulse-core" cx="511" cy="223" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Kanpur" tabindex="0" role="button" aria-label="Kanpur district hotspot">
+                <circle class="pulse-ring" cx="264" cy="226" r="10" /><circle class="pulse-core" cx="264" cy="226" r="5" />
               </g>
               <g class="map-hotspot" data-district="Unnao" tabindex="0" role="button" aria-label="Unnao district hotspot">
-                <circle class="pulse-ring" cx="225" cy="190" r="10" />
-                <circle class="pulse-core" cx="225" cy="190" r="5" />
+                <circle class="pulse-ring" cx="274" cy="221" r="10" /><circle class="pulse-core" cx="274" cy="221" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Lucknow" tabindex="0" role="button" aria-label="Lucknow district hotspot">
+                <circle class="pulse-ring" cx="307" cy="205" r="10" /><circle class="pulse-core" cx="307" cy="205" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Mahrajganj" tabindex="0" role="button" aria-label="Maharajganj district hotspot">
+                <circle class="pulse-ring" cx="494" cy="191" r="10" /><circle class="pulse-core" cx="494" cy="191" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Sultanpur" tabindex="0" role="button" aria-label="Sultanpur district hotspot">
+                <circle class="pulse-ring" cx="388" cy="236" r="10" /><circle class="pulse-core" cx="388" cy="236" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Amethi" tabindex="0" role="button" aria-label="Amethi district hotspot">
+                <circle class="pulse-ring" cx="377" cy="241" r="10" /><circle class="pulse-core" cx="377" cy="241" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Jalaun" tabindex="0" role="button" aria-label="Jalaun district hotspot">
+                <circle class="pulse-ring" cx="191" cy="242" r="10" /><circle class="pulse-core" cx="191" cy="242" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Jaunpur" tabindex="0" role="button" aria-label="Jaunpur district hotspot">
+                <circle class="pulse-ring" cx="432" cy="264" r="10" /><circle class="pulse-core" cx="432" cy="264" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Azamgarh" tabindex="0" role="button" aria-label="Azamgarh district hotspot">
+                <circle class="pulse-ring" cx="468" cy="246" r="10" /><circle class="pulse-core" cx="468" cy="246" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Mau" tabindex="0" role="button" aria-label="Mau district hotspot">
+                <circle class="pulse-ring" cx="494" cy="253" r="10" /><circle class="pulse-core" cx="494" cy="253" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Pratapgarh" tabindex="0" role="button" aria-label="Pratapgarh district hotspot">
+                <circle class="pulse-ring" cx="381" cy="255" r="10" /><circle class="pulse-core" cx="381" cy="255" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Fatehpur" tabindex="0" role="button" aria-label="Fatehpur district hotspot">
+                <circle class="pulse-ring" cx="297" cy="253" r="10" /><circle class="pulse-core" cx="297" cy="253" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Hamirpur" tabindex="0" role="button" aria-label="Hamirpur district hotspot">
+                <circle class="pulse-ring" cx="250" cy="252" r="10" /><circle class="pulse-core" cx="250" cy="252" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Ghazipur" tabindex="0" role="button" aria-label="Ghazipur district hotspot">
+                <circle class="pulse-ring" cx="497" cy="271" r="10" /><circle class="pulse-core" cx="497" cy="271" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Bhadohi" tabindex="0" role="button" aria-label="Bhadohi district hotspot">
+                <circle class="pulse-ring" cx="424" cy="281" r="10" /><circle class="pulse-core" cx="424" cy="281" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Allahabad" tabindex="0" role="button" aria-label="Prayagraj district hotspot">
+                <circle class="pulse-ring" cx="372" cy="278" r="10" /><circle class="pulse-core" cx="372" cy="278" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Jhansi" tabindex="0" role="button" aria-label="Jhansi district hotspot">
+                <circle class="pulse-ring" cx="136" cy="278" r="10" /><circle class="pulse-core" cx="136" cy="278" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Banda" tabindex="0" role="button" aria-label="Banda district hotspot">
+                <circle class="pulse-ring" cx="263" cy="277" r="10" /><circle class="pulse-core" cx="263" cy="277" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Varanasi" tabindex="0" role="button" aria-label="Varanasi district hotspot">
+                <circle class="pulse-ring" cx="455" cy="285" r="10" /><circle class="pulse-core" cx="455" cy="285" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Mahoba" tabindex="0" role="button" aria-label="Mahoba district hotspot">
+                <circle class="pulse-ring" cx="229" cy="287" r="10" /><circle class="pulse-core" cx="229" cy="287" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Chitrakoot" tabindex="0" role="button" aria-label="Chitrakoot district hotspot">
+                <circle class="pulse-ring" cx="303" cy="291" r="10" /><circle class="pulse-core" cx="303" cy="291" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Mirzapur" tabindex="0" role="button" aria-label="Mirzapur district hotspot">
+                <circle class="pulse-ring" cx="424" cy="294" r="10" /><circle class="pulse-core" cx="424" cy="294" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Rae Bareli" tabindex="0" role="button" aria-label="Rae Bareli district hotspot">
+                <circle class="pulse-ring" cx="327" cy="238" r="10" /><circle class="pulse-core" cx="327" cy="238" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Ballia" tabindex="0" role="button" aria-label="Ballia district hotspot">
+                <circle class="pulse-ring" cx="538" cy="262" r="10" /><circle class="pulse-core" cx="538" cy="262" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Lalitpur" tabindex="0" role="button" aria-label="Lalitpur district hotspot">
+                <circle class="pulse-ring" cx="124" cy="318" r="10" /><circle class="pulse-core" cx="124" cy="318" r="5" />
+              </g>
+              <g class="map-hotspot" data-district="Sonbhadra" tabindex="0" role="button" aria-label="Sonbhadra district hotspot">
+                <circle class="pulse-ring" cx="460" cy="318" r="10" /><circle class="pulse-core" cx="460" cy="318" r="5" />
               </g>
             </svg>
             <div id="map-tooltip" class="map-tooltip hidden"></div>
