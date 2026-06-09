@@ -968,7 +968,7 @@ function renderProducts() {
           <span class="card-loc">📍 ${prod.district}</span>
         </div>
         <h3>${displayName}</h3>
-        <p>${prod.description}</p>
+        <p>${cleanDescription(prod.description, prod.name)}</p>
       </div>
       <div class="card-footer">
         <span class="card-prop-label">${prod.proprietor !== 'N/A' ? dict.prop_label_group : dict.prop_label_cluster}</span>
@@ -2358,7 +2358,7 @@ function initAUDirectory() {
       .filter(u => u.status === 'approved')
       .map(u => {
         const prod = GI_PRODUCTS.find(p => p.id === u.productId);
-        return prod ? prod.name : u.productId;
+        return prod ? prod.name : slugToDisplayName(u.productId);
       })
   )].sort();
 
@@ -2407,6 +2407,31 @@ function initAUDirectory() {
   renderAUDirectory();
 }
 
+/** Convert a slug like "banaras-brocades-sarees" → "Banaras Brocades Sarees" */
+function slugToDisplayName(slug) {
+  if (!slug) return '—';
+  return slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+/** Sanitize product description for display: remove leading duplicate name / leading comma */
+function cleanDescription(desc, productName) {
+  if (!desc) return '';
+  let d = desc.trim();
+  // Remove leading comma/space
+  d = d.replace(/^[,;\s]+/, '');
+  // Remove leading parenthetical like "(sandstone) received..."
+  // If description starts with "(", prefix with product name
+  if (d.startsWith('(')) d = productName + ' ' + d;
+  // Remove doubled product name at start: "Foo Bar Foo Bar is..." → "Foo Bar is..."
+  if (productName) {
+    const escaped = productName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    d = d.replace(new RegExp('^' + escaped + '\\s+' + escaped + '(\\s)', 'i'), productName + '$1');
+  }
+  // Re-capitalise first character
+  if (d.length) d = d.charAt(0).toUpperCase() + d.slice(1);
+  return d;
+}
+
 function renderAUDirectory(append = false) {
   const grid = document.getElementById('au-dir-grid');
   const statsEl = document.getElementById('au-dir-stats');
@@ -2418,7 +2443,7 @@ function renderAUDirectory(append = false) {
   // Filter
   const filtered = approved.filter(u => {
     const prod = GI_PRODUCTS.find(p => p.id === u.productId);
-    const prodName = prod ? prod.name : u.productId;
+    const prodName = prod ? prod.name : slugToDisplayName(u.productId);
 
     if (auDirState.search) {
       const hay = `${u.businessName} ${u.registrationNo} ${u.artisanName || ''} ${u.address || ''}`.toLowerCase();
@@ -2449,7 +2474,7 @@ function renderAUDirectory(append = false) {
 
   newSlice.forEach(u => {
     const prod = GI_PRODUCTS.find(p => p.id === u.productId);
-    const prodName = prod ? prod.name : u.productId;
+    const prodName = prod ? prod.name : slugToDisplayName(u.productId);
 
     const card = document.createElement('div');
     card.className = 'au-dir-card';

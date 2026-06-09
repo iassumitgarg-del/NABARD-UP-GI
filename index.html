@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=2.4">
+  <link rel="stylesheet" href="style.css?v=2.5">
 </head>
 <body>
   
@@ -30,7 +30,7 @@
         </div>
         <div class="header-badge trn" data-key="logo_sub">UP Regional Office</div>
         <div class="utility-nav">
-          <button id="utility-weaver-btn" class="utility-link-btn" aria-label="Weaver Desk - Artisan registration and login">💼 Weaver Desk</button>
+          <button id="utility-weaver-btn" class="utility-link-btn" aria-label="Weaver Desk - Artisan registration and login">🧵 Weaver Desk</button>
           <button id="utility-staff-btn" class="utility-link-btn" aria-label="Staff Desk - Administrative validation and portal">🛡️ Staff Desk</button>
           <button id="lang-toggle-btn" class="lang-toggle-btn" aria-label="Switch Language to Hindi">हिंदी / HINDI</button>
         </div>
@@ -134,7 +134,7 @@
         id="tab-catalogue-btn"
         data-tab="catalogue"
       >
-        <span class="tab-shortcut">[1]</span> Browse GI Directory
+        Browse GI Directory
       </button>
       <button hidden
         class="tab-btn" 
@@ -156,15 +156,15 @@
       >
         <span class="tab-shortcut">[3]</span> NABARD Admin Portal
       </button>
-      <button 
-        class="tab-btn" 
-        role="tab" 
-        aria-selected="false" 
-        aria-controls="panel-about" 
+      <button
+        class="tab-btn"
+        role="tab"
+        aria-selected="false"
+        aria-controls="panel-about"
         id="tab-about-btn"
         data-tab="about"
       >
-        <span class="tab-shortcut">[2]</span> About GIs & Schemes
+        About GIs &amp; Schemes
       </button>
     </nav>
 
@@ -209,7 +209,11 @@
             <button class="cat-btn trn" data-category="Agricultural" role="radio" aria-checked="false" data-key="cat_Agricultural">Agriculture</button>
           </div>
           
-          <button id="compile-pdf-btn" class="compile-pdf-btn">Download brochure</button>
+        </div>
+
+        <!-- Brochure download — secondary action, placed outside filter bar -->
+        <div class="brochure-row">
+          <button id="compile-pdf-btn" class="compile-pdf-btn">📥 Download GI Brochure</button>
         </div>
 
         <!-- Quick Tags Suggestions -->
@@ -430,6 +434,10 @@
               </g>
             </svg>
             <div id="map-tooltip" class="map-tooltip hidden"></div>
+          </div>
+          <div class="map-legend">
+            <span class="map-legend-dot"></span>
+            <span>Active GI District — click to explore products</span>
           </div>
         </div>
 
@@ -1001,16 +1009,26 @@ Place: [City Name]</pre>
 
     <!-- ── FOOTER ── -->
     <footer class="main-footer" role="contentinfo">
-      <div class="footer-brand">
-        <strong>NABARD Uttar Pradesh GI Digital Catalogue</strong>
-        <p>Public awareness and discovery resource. Registration status must be confirmed with IP India.</p>
+      <div class="footer-content">
+        <div class="footer-brand">
+          <strong>NABARD Uttar Pradesh GI Digital Catalogue</strong>
+          <p>Official awareness and discovery resource. Registration status must be confirmed with IP India GI Registry.</p>
+          <p class="footer-data-note">Data sourced from IP India GI Part A &amp; B Registers. Last updated: May 2025.</p>
+        </div>
+        <div class="footer-contact">
+          <strong>NABARD Uttar Pradesh Regional Office</strong>
+          <p>📍 NABARD UP Regional Office, Vipin Khand, Gomti Nagar, Lucknow – 226 010</p>
+          <p>📧 <a href="mailto:lucknow@nabard.org">lucknow@nabard.org</a></p>
+          <p>🌐 <a href="https://www.nabard.org/" target="_blank" rel="noopener noreferrer">www.nabard.org</a></p>
+        </div>
+        <div class="footer-links-block">
+          <strong>Quick Links</strong>
+          <p><a href="https://www.nabard.org/" target="_blank" rel="noopener noreferrer">NABARD Official Website</a></p>
+          <p><a href="https://www.ipindia.gov.in/registry" target="_blank" rel="noopener noreferrer">IP India GI Registry</a></p>
+          <p><a href="https://www.ipindia.gov.in/geographical-indications.htm" target="_blank" rel="noopener noreferrer">GI Act &amp; Rules</a></p>
+        </div>
       </div>
-      <p class="footer-links">
-        <a href="https://www.nabard.org/" target="_blank" rel="noopener noreferrer">NABARD</a>
-        <a href="https://www.ipindia.gov.in/registry" target="_blank" rel="noopener noreferrer">GI Registry</a>
-        <a href="mailto:lucknow@nabard.org">Contact</a>
-      </p>
-      <p class="footer-legal">© 2026 NABARD. Contact information must be published only with the producer's consent. Report corrections to the Uttar Pradesh Regional Office.</p>
+      <p class="footer-legal">© 2025–2026 NABARD. This portal is a public awareness resource. Producer contact details are published with consent and must be verified with the GI Registry before commercial use. Report corrections to the Uttar Pradesh Regional Office.</p>
     </footer>
 
   </div>
