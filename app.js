@@ -623,9 +623,12 @@ function animateStatsDashboard() {
   const inPipeline     = UPCOMING_GI_PIPELINE.length;
   const totalSanctions = registeredGIs + inPipeline;   // NABARD-facilitated total
 
-  // Authorised users: live count from approved records
+  // Authorised users: the headline figure is the official total sanctioned by
+  // the GI Registry. The directory holds a detailed extract of these records.
+  const OFFICIAL_AU_SANCTIONED = 4750;
   const approvedAUs        = state.authorizedUsers.filter(u => u.status === 'approved');
-  const totalAUs           = approvedAUs.length;
+  const totalAUs           = OFFICIAL_AU_SANCTIONED;
+  const directoryAUs       = approvedAUs.length;
   const registryAUs        = approvedAUs.filter(u => u.isOfficialRecord).length;
   const portalAUs          = approvedAUs.filter(u => !u.isOfficialRecord).length;
 
@@ -645,8 +648,8 @@ function animateStatsDashboard() {
   const auSubEl = document.querySelector('.au-sub-stats');
   if (auSubEl) {
     auSubEl.innerHTML =
-      `<span style="font-weight:700;color:rgba(255,255,255,0.9);">${registryAUs.toLocaleString('en-IN')}</span> ` +
-      (state.language === 'hi' ? 'रजिस्ट्री में पंजीकृत' : 'Registered in Registry') + `<br>` +
+      `<span style="font-weight:700;color:rgba(255,255,255,0.9);">${directoryAUs.toLocaleString('en-IN')}</span> ` +
+      (state.language === 'hi' ? 'इस निर्देशिका में सूचीबद्ध' : 'detailed in this directory') + `<br>` +
       `<span style="font-weight:700;color:rgba(255,255,255,0.9);">${portalAUs.toLocaleString('en-IN')}</span> ` +
       (state.language === 'hi' ? 'पोर्टल पर पंजीकृत' : 'Self-registered on Portal');
   }
