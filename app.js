@@ -1,4 +1,4 @@
-import { GI_PRODUCTS, SEED_AUTHORIZED_USERS } from './data.js';
+import { GI_PRODUCTS, SEED_AUTHORIZED_USERS } from './data.js?v=2.6';
 
 // ── STATE MANAGEMENT ──
 let state = {
@@ -39,8 +39,6 @@ const CRAFT_VIDEOS = {
 
 // ── 34 UPCOMING PRODUCTS PIPELINE DATA ──
 const UPCOMING_GI_PIPELINE = [
-  { name_en: "Mathura Kanthi Mala Craft", name_hi: "मथुरा कंठी माला शिल्प", district: "Mathura", status: "examination", appNo: "1139", pct: 65 },
-  { name_en: "Aligarh Metal Statue Craft", name_hi: "अलीगढ़ धातु मूर्ति शिल्प", district: "Aligarh", status: "examination", appNo: "1138", pct: 65 },
   { name_en: "Banaras Varakh (Tabak)", name_hi: "बनारस वरख (तबाक)", district: "Varanasi", status: "pre-examination", appNo: "1160", pct: 45 },
   { name_en: "Banaras Zari", name_hi: "बनारस ज़री", district: "Varanasi", status: "pre-examination", appNo: "1161", pct: 45 },
   { name_en: "Banaras Aloo Papad", name_hi: "बनारस आलू पापड़", district: "Varanasi", status: "pre-examination", appNo: "1152", pct: 45 },
@@ -53,7 +51,6 @@ const UPCOMING_GI_PIPELINE = [
   { name_en: "Purdilnagar Glass Beads of (Hathras)", name_hi: "पुरदिलनगर कांच के मोती (हाथरस)", district: "Hathras", status: "pre-examination", appNo: "1221", pct: 45 },
   { name_en: "Ayodhya Tika (Tilak) Product", name_hi: "अयोध्या टीका (तिलक) उत्पाद", district: "Ayodhya", status: "pre-examination", appNo: "1209", pct: 45 },
   { name_en: "Banaras Clay Craft", name_hi: "बनारस क्ले क्राफ्ट (मिट्टी शिल्प)", district: "Varanasi", status: "pre-examination", appNo: "1218", pct: 45 },
-  { name_en: "Aligarh Dastagi-Hastagi Product (Hardware)", name_hi: "अलीगढ़ दस्तगी-हस्तगी (हार्डवेयर)", district: "Aligarh", status: "examination", appNo: "1238", pct: 65 },
   { name_en: "Lucknow Clay Craft", name_hi: "लखनऊ मिट्टी शिल्प", district: "Lucknow", status: "pre-examination", appNo: "1220", pct: 45 },
   { name_en: "Kanpur Farsi Dhurrie", name_hi: "कानपुर फारसी दरी", district: "Kanpur", status: "pre-examination", appNo: "1328", pct: 45 },
   { name_en: "Mirzapur Stone Craft", name_hi: "मिर्जापुर स्टोन क्राफ्ट", district: "Mirzapur", status: "pre-examination", appNo: "1239", pct: 45 },
@@ -187,8 +184,8 @@ const TRANSLATIONS = {
     map_desc: 'Click on any active district hotspot to explore its native Geographical Indication (GI) products.',
     au_dir_title: 'Authorized Users Directory',
     au_dir_desc: 'Complete list of producers registered under Part B of the IP India GI Registry. Filter by product or district to find producers near you.',
-    pipe_title: 'Upcoming UP GIs: Pre-Registration Pipeline (34 Products)',
-    pipe_desc: 'NABARD UP Regional Office currently sponsors and facilitates the registration of 34 additional heritage crafts in Uttar Pradesh. Track their current progress in the official GI Registry pipeline.',
+    pipe_title: 'Upcoming UP GIs: Pre-Registration Pipeline (31 Products)',
+    pipe_desc: 'NABARD UP Regional Office currently sponsors and facilitates the registration of 31 additional heritage crafts in Uttar Pradesh. Track their current progress in the official GI Registry pipeline.',
     guide_title: 'How to Apply for GI Authorized User Registration',
     guide_subtitle: 'A complete step-by-step guide with document templates for NGOs, Self-Help Groups (SHGs), and individual producers.',
     step1_title: 'Verify Product & Proprietor',
@@ -306,8 +303,8 @@ const TRANSLATIONS = {
     map_desc: 'उत्पादों को देखने के लिए किसी भी सक्रिय जिले के हॉटस्पॉट पर क्लिक करें।',
     au_dir_title: 'अधिकृत उपयोगकर्ता निर्देशिका',
     au_dir_desc: 'आईपी इंडिया जीआई रजिस्ट्री के भाग बी के अंतर्गत पंजीकृत उत्पादकों की पूरी सूची। अपने नजदीकी उत्पादकों को खोजने के लिए उत्पाद या जिले के अनुसार फ़िल्टर करें।',
-    pipe_title: 'आगामी यूपी जीआई: पंजीकरण पाइपलाइन (34 उत्पाद)',
-    pipe_desc: 'नाबार्ड यूपी क्षेत्रीय कार्यालय वर्तमान में उत्तर प्रदेश में 34 अतिरिक्त शिल्पों के पंजीकरण का वित्तपोषण कर रहा है। आधिकारिक जीआई रजिस्ट्री पाइपलाइन में उनकी प्रगति को ट्रैक करें।',
+    pipe_title: 'आगामी यूपी जीआई: पंजीकरण पाइपलाइन (31 उत्पाद)',
+    pipe_desc: 'नाबार्ड यूपी क्षेत्रीय कार्यालय वर्तमान में उत्तर प्रदेश में 31 अतिरिक्त शिल्पों के पंजीकरण का वित्तपोषण कर रहा है। आधिकारिक जीआई रजिस्ट्री पाइपलाइन में उनकी प्रगति को ट्रैक करें।',
     guide_title: 'जीआई अधिकृत उपयोगकर्ता पंजीकरण के लिए आवेदन कैसे करें',
     guide_subtitle: 'एनजीओ, स्वयं सहायता समूहों (एसएचजी) और व्यक्तिगत उत्पादकों के लिए दस्तावेज़ टेम्प्लेट के साथ एक संपूर्ण चरण-दर-चरण मार्गदर्शिका।',
     step1_title: 'उत्पाद और प्रोप्राइटर सत्यापित करें',
@@ -619,7 +616,10 @@ function animateStatsDashboard() {
   // Adding a product to GI_PRODUCTS, moving one from pipeline, or
   // uploading new AU records will automatically update these figures.
 
-  const registeredGIs  = GI_PRODUCTS.length;
+  // "Registered GIs" counts only NABARD-sanctioned products. Items flagged
+  // nabardSanctioned:false (e.g. Lucknow Chikan, Banaras Brocades) appear in
+  // the gallery but are NOT NABARD-sanctioned, so they are excluded here.
+  const registeredGIs  = GI_PRODUCTS.filter(p => p.nabardSanctioned !== false).length;
   const inPipeline     = UPCOMING_GI_PIPELINE.length;
   const totalSanctions = registeredGIs + inPipeline;   // NABARD-facilitated total
 
