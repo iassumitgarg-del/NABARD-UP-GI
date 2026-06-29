@@ -983,10 +983,12 @@ function renderProducts() {
   filtered.slice(0, state.visibleProductLimit).forEach((prod) => {
     const displayName = formatProductName(prod.name);
     
-    // Bind real photographs or fallback to category illustrations
+    // Bind real photographs or fallback to category illustrations.
+    // Grid cards use the lightweight thumbnail; the full image loads in the modal.
     let imgUrl = '';
     if (state.imageMapping && state.imageMapping[prod.id]) {
-      imgUrl = state.imageMapping[prod.id].main || state.imageMapping[prod.id];
+      const me = state.imageMapping[prod.id];
+      imgUrl = me.thumb || me.main || me;
     }
     const isFallbackImg = !imgUrl;
     if (!imgUrl) {
@@ -1651,9 +1653,10 @@ function compileFilteredCatalogPrint() {
 
     let imgUrl = '';
     if (state.imageMapping && state.imageMapping[prod.id]) {
-      imgUrl = state.imageMapping[prod.id].main || state.imageMapping[prod.id];
+      const me = state.imageMapping[prod.id];
+      imgUrl = me.thumb || me.main || me;
     }
-    
+
     // Fallback if mapping has no image
     if (!imgUrl) {
       if (prod.category === 'Textile') imgUrl = 'cat_textiles.png';
