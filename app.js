@@ -1,4 +1,4 @@
-import { GI_PRODUCTS, SEED_AUTHORIZED_USERS } from './data.js?v=2.6';
+import { GI_PRODUCTS, SEED_AUTHORIZED_USERS } from './data.js?v=3.0';
 
 // ── STATE MANAGEMENT ──
 let state = {
@@ -1062,10 +1062,16 @@ function populateRegistrationDropdown() {
 function openProductModal(prod) {
   state.lastFocusedElement = document.activeElement;
   state.selectedProduct = prod;
-  const verifiedUsers = state.authorizedUsers.filter(
-    (u) => u.productId === prod.id && u.status === 'approved'
-  );
-  
+  const verifiedUsers = state.authorizedUsers
+    .filter((u) => u.productId === prod.id && u.status === 'approved')
+    // Producers with a published contact number are shown first.
+    .sort((a, b) => {
+      const aHas = (a.phone || a.whatsapp) ? 1 : 0;
+      const bHas = (b.phone || b.whatsapp) ? 1 : 0;
+      if (aHas !== bHas) return bHas - aHas;
+      return (a.businessName || '').localeCompare(b.businessName || '');
+    });
+
   const dict = TRANSLATIONS[state.language];
 
   let galleryImagesHtml = '';
@@ -2042,21 +2048,43 @@ function setupEventListeners() {
       const whatsapp = document.getElementById('au-whatsapp').value.trim();
       const email    = document.getElementById('au-email').value.trim();
       const artInput = document.getElementById('au-artisan');
-      // Apply ONLY contact details; never overwrite locked/known fields
-      auActiveRecord.phone = mobile;
-      if (whatsapp) auActiveRecord.whatsapp = whatsapp.replace(/\D/g, '');
-      if (email) auActiveRecord.email = email;
-      if (!auActiveRecord.artisanName && artInput && artInput.value.trim()) {
-        auActiveRecord.artisanName = artInput.value.trim();
-      }
-      auActiveRecord.contactProvided = true;
-      persistAUContact(auActiveRecord);
+      const prod = GI_PRODUCTS.find(p => p.id === auActiveRecord.productId);
+
+      // Create a PENDING contact-update submission so it appears in the NABARD
+      // Admin portal for approval. On approval the contact details are applied
+      // to the official AU record and become visible in the public directory.
+      const submission = {
+        id: `au-reg-${Date.now()}`,
+        productId: auActiveRecord.productId,
+        productName: prod ? prod.name : slugToDisplayName(auActiveRecord.productId),
+        businessName: auActiveRecord.businessName,
+        artisanName: (!auActiveRecord.artisanName && artInput && artInput.value.trim())
+          ? artInput.value.trim() : (auActiveRecord.artisanName || ''),
+        registrationNo: auActiveRecord.registrationNo,
+        auPartBNo: auActiveRecord.auPartBNo,
+        district: auActiveRecord.district,
+        address: auActiveRecord.address || '',
+        phone: mobile,
+        whatsapp: whatsapp.replace(/\D/g, ''),
+        email,
+        status: 'pending',
+        isContactUpdate: true,
+        contactUpdateFor: auActiveRecord.id,
+        submittedAt: new Date().toISOString()
+      };
+      // Replace any earlier pending submission for the same AU
+      state.authorizedUsers = state.authorizedUsers.filter(
+        u => !(u.isContactUpdate && u.contactUpdateFor === auActiveRecord.id && u.status === 'pending')
+      );
+      state.authorizedUsers.push(submission);
+      saveUsers();
+      renderAdminDashboard();
 
       auCompleteForm.classList.add('hidden');
       const isEn = state.language === 'en';
       dom.regSuccessMsg.innerHTML = isEn
-        ? `Thank you. Contact details for <strong>${auActiveRecord.businessName}</strong> (AU ${auActiveRecord.registrationNo}) have been saved on this device. In a production deployment these would be routed to NABARD UP RO for verification before being published.`
-        : `धन्यवाद। <strong>${auActiveRecord.businessName}</strong> (एयू ${auActiveRecord.registrationNo}) के संपर्क विवरण इस डिवाइस पर सहेजे गए हैं।`;
+        ? `Thank you. Your contact details for <strong>${auActiveRecord.businessName}</strong> (AU ${auActiveRecord.registrationNo}) have been <strong>submitted to the NABARD UP Regional Office for approval</strong>. Once verified by an officer, your contact number will appear on the product page.`
+        : `धन्यवाद। <strong>${auActiveRecord.businessName}</strong> (एयू ${auActiveRecord.registrationNo}) के लिए आपके संपर्क विवरण <strong>नाबार्ड यूपी क्षेत्रीय कार्यालय को अनुमोदन हेतु भेज दिए गए हैं</strong>। अधिकारी द्वारा सत्यापन के बाद आपका संपर्क नंबर उत्पाद पृष्ठ पर दिखाई देगा।`;
       dom.regSuccessCard.classList.remove('hidden');
       dom.regSuccessCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
@@ -2068,6 +2096,21 @@ function setupEventListeners() {
       auCompleteForm.classList.add('hidden');
       auLookupForm.classList.remove('hidden');
       auActiveRecord = null;
+    });
+  }
+
+  // "Find your AU number" → jump to the searchable Authorized Users directory
+  const auFindLink = document.getElementById('au-find-number-link');
+  if (auFindLink) {
+    auFindLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchTab('catalogue');
+      requestAnimationFrame(() => {
+        const sec = document.getElementById('au-directory-section');
+        if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const search = document.getElementById('au-search');
+        if (search) setTimeout(() => search.focus(), 400);
+      });
     });
   }
 
@@ -2848,12 +2891,35 @@ function runVerificationSimulation(user) {
 }
 
 function approveApplication(id) {
+  const rec = state.authorizedUsers.find(u => u.id === id);
+
+  // Contact-update submission: apply the new contact details onto the official
+  // AU record (so they become public), then remove the pending submission so
+  // the producer is not duplicated in the directory.
+  if (rec && rec.isContactUpdate && rec.contactUpdateFor) {
+    const official = state.authorizedUsers.find(u => u.id === rec.contactUpdateFor);
+    if (official) {
+      if (rec.phone) official.phone = rec.phone;
+      if (rec.whatsapp) official.whatsapp = rec.whatsapp;
+      if (rec.email) official.email = rec.email;
+      if (rec.artisanName && !official.artisanName) official.artisanName = rec.artisanName;
+      official.contactProvided = true;
+      official.verifiedAt = new Date().toISOString();
+      persistAUContact(official);
+    }
+    state.authorizedUsers = state.authorizedUsers.filter(u => u.id !== id);
+    saveUsers();
+    renderAdminDashboard();
+    renderProducts();
+    return;
+  }
+
   state.authorizedUsers = state.authorizedUsers.map((u) => {
     if (u.id === id) {
-      const updated = { 
-        ...u, 
-        status: 'approved', 
-        verifiedAt: new Date().toISOString() 
+      const updated = {
+        ...u,
+        status: 'approved',
+        verifiedAt: new Date().toISOString()
       };
       ensureBatches(updated);
       return updated;
@@ -2862,7 +2928,7 @@ function approveApplication(id) {
   });
   saveUsers();
   renderAdminDashboard();
-  renderProducts(); 
+  renderProducts();
 }
 
 function rejectApplication(id) {

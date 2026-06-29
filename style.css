@@ -5014,3 +5014,20 @@ body.modal-open {
 }
 .au-complete-actions .submit-btn { flex: 1; min-width: 160px; }
 .au-complete-actions .secondary-btn { width: auto; white-space: nowrap; }
+
+/* ── "Find your AU number" link beside the lookup field ── */
+.au-lookup-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.au-find-link {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gold-hover);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.au-find-link:hover { text-decoration: underline; }

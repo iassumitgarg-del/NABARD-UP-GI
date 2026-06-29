@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=2.9">
+  <link rel="stylesheet" href="style.css?v=3.0">
 </head>
 <body>
   
@@ -487,9 +487,12 @@
             <!-- STEP 1: Look up the Authorized User by registration number -->
             <form id="au-lookup-form" class="registration-form">
               <div class="form-group">
-                <label for="au-lookup-no" class="trn" data-key="lbl_au_lookup">GI Authorized User Registration Number *</label>
+                <div class="au-lookup-label-row">
+                  <label for="au-lookup-no" class="trn" data-key="lbl_au_lookup">GI Authorized User Registration Number *</label>
+                  <a href="#au-directory-section" id="au-find-number-link" class="au-find-link">🔎 <span class="trn" data-key="link_find_au">Find your AU number</span></a>
+                </div>
                 <input type="text" id="au-lookup-no" placeholder="e.g. AU-96 or 96" required autocomplete="off">
-                <span class="field-hint trn" data-key="hint_au_lookup">Enter the Authorized User (Part-B) number issued by the GI Registry. We will fetch your details from our records.</span>
+                <span class="field-hint trn" data-key="hint_au_lookup">Enter the Authorized User (Part-B) number issued by the GI Registry. We will fetch your details from our records. Don't know it? Use "Find your AU number" to search the Authorized Users database by name or district.</span>
               </div>
               <div id="au-lookup-error" class="form-error-box" role="alert" style="display:none;"></div>
               <button type="submit" class="submit-btn trn" data-key="btn_au_proceed">Proceed &rarr;</button>
@@ -535,7 +538,7 @@
 
               <div class="au-complete-actions">
                 <button type="button" id="au-back-btn" class="secondary-btn trn" data-key="btn_au_back">&larr; Use a different number</button>
-                <button type="submit" class="submit-btn trn" data-key="btn_au_save">Save My Details</button>
+                <button type="submit" class="submit-btn trn" data-key="btn_au_save">Submit for Approval</button>
               </div>
             </form>
 
@@ -1137,6 +1140,6 @@ Place: [City Name]</pre>
     <div class="lightbox-caption" id="lightbox-caption"></div>
   </div>
 
-  <script type="module" src="app.js?v=2.9"></script>
+  <script type="module" src="app.js?v=3.0"></script>
 </body>
 </html>
