@@ -1922,7 +1922,7 @@ body {
 .card-image-wrapper {
   position: relative;
   width: 100%;
-  height: 160px;
+  height: 210px;
   overflow: hidden;
   background-color: hsl(210, 20%, 96%);
 }
@@ -1930,9 +1930,15 @@ body {
 .card-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
   background-color: #f7f6f0;
   transition: var(--transition-smooth);
+}
+/* Category fallback illustrations look better fully visible, not cropped */
+.card-image.is-fallback {
+  object-fit: contain;
+  padding: 10px;
 }
 
 .product-card:hover .card-image {
@@ -1979,6 +1985,8 @@ body {
   overflow: hidden;
   border-radius: var(--radius-md);
   margin-bottom: 12px;
+  cursor: zoom-in;
+  outline: none;
 }
 
 .modal-hero-image {
@@ -1986,6 +1994,29 @@ body {
   height: 100%;
   object-fit: contain;
   background-color: #f7f6f0;
+  transition: transform 0.3s ease;
+}
+.modal-hero-image-wrapper:hover .modal-hero-image {
+  transform: scale(1.03);
+}
+
+.modal-hero-zoom-hint {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+.modal-hero-image-wrapper:hover .modal-hero-zoom-hint,
+.modal-hero-image-wrapper:focus .modal-hero-zoom-hint {
+  opacity: 1;
 }
 
 .modal-image-tag {
@@ -2545,6 +2576,27 @@ body {
   stroke: hsl(145, 20%, 80%);
   stroke-width: 1.5;
   transition: all 0.35s ease;
+}
+
+/* Real UP district boundaries */
+.map-districts {
+  pointer-events: none; /* clicks handled by hotspots above */
+}
+.map-district {
+  fill: hsl(145, 18%, 94%);
+  stroke: hsl(145, 22%, 78%);
+  stroke-width: 0.5;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  transition: fill 0.3s ease;
+}
+/* Tint districts that have a GI product hotspot */
+.map-district.has-gi {
+  fill: hsl(38, 45%, 90%);
+  stroke: hsl(38, 45%, 72%);
+}
+.map-district.dim {
+  fill: hsl(210, 12%, 96%);
 }
 
 .map-hotspot {
@@ -4876,3 +4928,89 @@ body.modal-open {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── WEAVER/STAFF DESK ENTRANCE CUE ── */
+@keyframes deskEntrance {
+  0%   { box-shadow: 0 0 0 0 var(--gold-glow); }
+  30%  { box-shadow: 0 0 0 6px var(--gold-glow); }
+  100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); }
+}
+.tab-panel.desk-entrance {
+  animation: deskEntrance 1.1s ease-out;
+  border-radius: var(--radius-lg);
+}
+.tab-panel.desk-entrance .form-header h2,
+.tab-panel.desk-entrance .admin-login-card h2 {
+  animation: deskTitleFlash 1.2s ease-out;
+}
+@keyframes deskTitleFlash {
+  0%, 100% { color: inherit; }
+  25%      { color: var(--gold-hover); }
+}
+
+/* ── AU LOOKUP / COMPLETE FLOW ── */
+.form-error-box {
+  background: hsl(354, 70%, 96%);
+  border: 1px solid hsl(354, 60%, 80%);
+  color: var(--red-alert);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.au-known-block {
+  background: hsl(145, 30%, 97%);
+  border: 1px solid hsl(145, 30%, 85%);
+  border-radius: var(--radius-md);
+  padding: 16px 16px 12px;
+  margin-bottom: 18px;
+}
+.au-known-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--green-success);
+  margin-bottom: 12px;
+}
+.au-known-grid { display: flex; flex-direction: column; gap: 8px; }
+.au-known-row {
+  display: grid;
+  grid-template-columns: 38% 1fr;
+  gap: 10px;
+  font-size: 0.85rem;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed hsl(145, 20%, 88%);
+}
+.au-known-row:last-child { border-bottom: none; padding-bottom: 0; }
+.au-known-key { color: var(--text-muted); font-weight: 600; }
+.au-known-val { color: var(--text-main); font-weight: 600; word-break: break-word; }
+.au-lock { font-size: 0.75rem; opacity: 0.55; }
+.au-known-note {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 12px;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.au-edit-block {
+  border-top: 2px solid var(--panel-border);
+  padding-top: 16px;
+  margin-bottom: 8px;
+}
+.au-edit-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  margin-bottom: 14px;
+}
+.au-complete-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.au-complete-actions .submit-btn { flex: 1; min-width: 160px; }
+.au-complete-actions .secondary-btn { width: auto; white-space: nowrap; }

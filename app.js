@@ -408,6 +408,7 @@ function initLocalStorage() {
     });
 
     state.authorizedUsers = Array.from(mergedMap.values());
+    mergeAUContacts(); // re-apply locally-saved contact details onto official records
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(localUsers));
 
     const storedInqs = localStorage.getItem(INQ_STORAGE_KEY);
@@ -421,6 +422,45 @@ function initLocalStorage() {
       state.buyerInquiries = [];
     }
   }
+}
+
+// ── AU CONTACT DETAILS (producer self-service) ──
+// Producers complete the contact info we don't hold against their official
+// AU record. We keep these in a separate localStorage map keyed by AU number
+// so they survive reloads without bloating the main user store.
+const AU_CONTACT_KEY = 'nabard_au_contacts';
+
+function readAUContacts() {
+  try { return JSON.parse(localStorage.getItem(AU_CONTACT_KEY)) || {}; }
+  catch { return {}; }
+}
+
+function persistAUContact(rec) {
+  const key = rec.registrationNo || ('AU-' + (rec.auPartBNo || ''));
+  if (!key) return;
+  const map = readAUContacts();
+  map[key] = {
+    phone: rec.phone || '',
+    whatsapp: rec.whatsapp || '',
+    email: rec.email || '',
+    artisanName: rec.artisanName || ''
+  };
+  localStorage.setItem(AU_CONTACT_KEY, JSON.stringify(map));
+}
+
+function mergeAUContacts() {
+  const map = readAUContacts();
+  if (!map || !Object.keys(map).length) return;
+  state.authorizedUsers.forEach(u => {
+    const key = u.registrationNo || ('AU-' + (u.auPartBNo || ''));
+    const c = map[key];
+    if (!c) return;
+    if (c.phone) u.phone = c.phone;
+    if (c.whatsapp) u.whatsapp = c.whatsapp;
+    if (c.email) u.email = c.email;
+    if (c.artisanName && !u.artisanName) u.artisanName = c.artisanName;
+    u.contactProvided = true;
+  });
 }
 
 // Save back to storage
@@ -948,6 +988,7 @@ function renderProducts() {
     if (state.imageMapping && state.imageMapping[prod.id]) {
       imgUrl = state.imageMapping[prod.id].main || state.imageMapping[prod.id];
     }
+    const isFallbackImg = !imgUrl;
     if (!imgUrl) {
       if (prod.category === 'Textile') imgUrl = 'cat_textiles.png';
       else if (prod.category === 'Handicraft') imgUrl = 'cat_handicrafts.png';
@@ -963,7 +1004,7 @@ function renderProducts() {
     
     card.innerHTML = `
       <div class="card-image-wrapper">
-        <img class="card-image" src="${imgUrl}" alt="${displayName}" loading="lazy">
+        <img class="card-image${isFallbackImg ? ' is-fallback' : ''}" src="${imgUrl}" alt="${displayName}" loading="lazy">
         <span class="card-tag">${state.language === 'en' ? prod.category : (prod.category === 'Textile' ? 'कपड़ा' : prod.category === 'Handicraft' ? 'हस्तशिल्प' : prod.category === 'Food Product' ? 'खाद्य उत्पाद' : 'कृषि')}</span>
       </div>
       <div class="card-body">
@@ -1004,7 +1045,10 @@ function renderProducts() {
 }
 
 // ── REGISTRATION DROPDOWN ──
+// (Retained for compatibility; the registration flow now uses an AU-number
+// lookup rather than a product dropdown, so this is a no-op when absent.)
 function populateRegistrationDropdown() {
+  if (!dom.regProductSelect) return;
   dom.regProductSelect.innerHTML = `<option value="">${state.language === 'en' ? '-- Choose Product --' : '-- उत्पाद चुनें --'}</option>`;
   GI_PRODUCTS.forEach((p) => {
     const opt = document.createElement('option');
@@ -1056,10 +1100,11 @@ function openProductModal(prod) {
 
   // 1. Build Details Modal with Tab Controls
   dom.modalContent.innerHTML = `
-    <!-- Category Image Banner -->
-    <div class="modal-hero-image-wrapper">
+    <!-- Category Image Banner (click for full-screen view) -->
+    <div class="modal-hero-image-wrapper" onclick="openLightboxSrc('${imgUrl}', '${formatProductName(prod.name).replace(/'/g,"&#39;")}')" role="button" tabindex="0" aria-label="View ${formatProductName(prod.name)} full size" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openLightboxSrc('${imgUrl}','${formatProductName(prod.name).replace(/'/g,"&#39;")}');}">
       <img class="modal-hero-image" src="${imgUrl}" alt="${formatProductName(prod.name)}">
       <span class="modal-image-tag">${state.language === 'en' ? prod.category : (prod.category === 'Textile' ? 'कपड़ा' : prod.category === 'Handicraft' ? 'हस्तशिल्प' : prod.category === 'Food Product' ? 'खाद्य उत्पाद' : 'कृषि')}</span>
+      <span class="modal-hero-zoom-hint">🔍 ${state.language === 'en' ? 'Click to enlarge' : 'बड़ा करने के लिए क्लिक करें'}</span>
     </div>
 
     <!-- Header Block -->
@@ -1893,93 +1938,148 @@ function setupEventListeners() {
     }, 2200);
   });
 
-  // 8. Artisan Registration File Upload Simulator
-  dom.dragDropZone.addEventListener('click', () => dom.regFileInput.click());
-  dom.regFileInput.addEventListener('change', (e) => {
-    if (e.target.files.length > 0) {
-      const file = e.target.files[0];
-      state.dummyFileName = file.name;
-      dom.uploadFeedback.textContent = `✓ Selected: ${file.name}`;
-      dom.dragDropZone.style.borderColor = 'var(--green-success)';
-    }
-  });
+  // 8. Artisan Registration File Upload Simulator (only if the legacy
+  //    upload zone is present — the AU-lookup flow does not use it)
+  if (dom.dragDropZone && dom.regFileInput) {
+    dom.dragDropZone.addEventListener('click', () => dom.regFileInput.click());
+    dom.regFileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        const file = e.target.files[0];
+        state.dummyFileName = file.name;
+        dom.uploadFeedback.textContent = `✓ Selected: ${file.name}`;
+        dom.dragDropZone.style.borderColor = 'var(--green-success)';
+      }
+    });
+    dom.dragDropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dom.dragDropZone.style.borderColor = 'var(--gold-primary)';
+    });
+    dom.dragDropZone.addEventListener('dragleave', () => {
+      dom.dragDropZone.style.borderColor = 'var(--panel-border)';
+    });
+    dom.dragDropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      if (e.dataTransfer.files.length > 0) {
+        const file = e.dataTransfer.files[0];
+        state.dummyFileName = file.name;
+        dom.uploadFeedback.textContent = `✓ Dropped: ${file.name}`;
+        dom.dragDropZone.style.borderColor = 'var(--green-success)';
+      }
+    });
+  }
 
-  dom.dragDropZone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dom.dragDropZone.style.borderColor = 'var(--gold-primary)';
-  });
+  // 9. Producer self-service: AU-number lookup → confirm verified details →
+  //    add only the contact info we don't already hold (mobile required).
+  const auLookupForm   = document.getElementById('au-lookup-form');
+  const auCompleteForm = document.getElementById('au-complete-form');
+  const auLookupError  = document.getElementById('au-lookup-error');
+  let auActiveRecord   = null;
 
-  dom.dragDropZone.addEventListener('dragleave', () => {
-    dom.dragDropZone.style.borderColor = 'var(--panel-border)';
-  });
+  const normAU = s => (s || '').toString().toLowerCase().replace(/[^a-z0-9]/g, '').replace(/^au/, '');
+  function findAUByNumber(input) {
+    const key = normAU(input);
+    if (!key) return null;
+    return state.authorizedUsers.find(u => {
+      const reg   = normAU(u.registrationNo);
+      const partB = (u.auPartBNo || '').toString().toLowerCase().replace(/[^a-z0-9]/g, '');
+      return reg === key || partB === key;
+    }) || null;
+  }
 
-  dom.dragDropZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    if (e.dataTransfer.files.length > 0) {
-      const file = e.dataTransfer.files[0];
-      state.dummyFileName = file.name;
-      dom.uploadFeedback.textContent = `✓ Dropped: ${file.name}`;
-      dom.dragDropZone.style.borderColor = 'var(--green-success)';
-    }
-  });
+  function renderAUKnownDetails(rec) {
+    const grid = document.getElementById('au-known-grid');
+    const prod = GI_PRODUCTS.find(p => p.id === rec.productId);
+    const prodName = prod ? prod.name : slugToDisplayName(rec.productId);
+    const isEn = state.language === 'en';
+    const rows = [
+      [isEn ? 'AU Registration No' : 'अधिकृत संख्या', rec.registrationNo || ('AU-' + (rec.auPartBNo || ''))],
+      [isEn ? 'Business / Cooperative' : 'व्यवसाय', rec.businessName || '—'],
+      [isEn ? 'GI Product' : 'जीआई उत्पाद', prodName],
+      [isEn ? 'District' : 'जिला', rec.district || '—'],
+    ];
+    if (rec.address) rows.push([isEn ? 'Registered Address' : 'पता', rec.address]);
+    if (rec.artisanName) rows.push([isEn ? 'Lead Artisan' : 'प्रमुख कारीगर', rec.artisanName]);
+    grid.innerHTML = rows.map(([k, v]) => `
+      <div class="au-known-row">
+        <span class="au-known-key">${k}</span>
+        <span class="au-known-val">${v} <span class="au-lock" title="${isEn ? 'On record — locked' : 'रिकॉर्ड में — लॉक'}">🔒</span></span>
+      </div>`).join('');
+  }
 
-  // 9. Artisan Registration Form Submit
-  dom.artisanRegForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const productId = dom.regProductSelect.value;
-    const businessName = document.getElementById('reg-business-name').value;
-    const artisanName = document.getElementById('reg-artisan-name').value;
-    const registrationNo = document.getElementById('reg-no').value;
-    const district = document.getElementById('reg-district').value;
-    const email = document.getElementById('reg-email').value;
-    const phone = document.getElementById('reg-phone').value;
-    const whatsapp = document.getElementById('reg-whatsapp').value;
-    const address = document.getElementById('reg-address').value;
+  if (auLookupForm) {
+    auLookupForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = document.getElementById('au-lookup-no').value.trim();
+      const rec = findAUByNumber(val);
+      if (!rec) {
+        auLookupError.style.display = 'block';
+        auLookupError.textContent = state.language === 'en'
+          ? `No Authorized User record found for "${val}". Please check your AU number, or contact the NABARD UP Regional Office.`
+          : `"${val}" के लिए कोई अधिकृत उपयोगकर्ता रिकॉर्ड नहीं मिला। कृपया अपना एयू नंबर जांचें या नाबार्ड यूपी आरओ से संपर्क करें।`;
+        return;
+      }
+      auLookupError.style.display = 'none';
+      auActiveRecord = rec;
+      renderAUKnownDetails(rec);
+      document.getElementById('au-mobile').value   = rec.phone || '';
+      document.getElementById('au-whatsapp').value = rec.whatsapp || '';
+      document.getElementById('au-email').value    = rec.email || '';
+      const artGroup = document.getElementById('au-artisan-group');
+      if (rec.artisanName) { artGroup.style.display = 'none'; }
+      else { artGroup.style.display = ''; document.getElementById('au-artisan').value = ''; }
+      auLookupForm.classList.add('hidden');
+      auCompleteForm.classList.remove('hidden');
+      auCompleteForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
 
-    if (!productId) {
-      alert("Please select a product!");
-      return;
-    }
+  if (auCompleteForm) {
+    auCompleteForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!auActiveRecord) return;
+      const mobile = document.getElementById('au-mobile').value.trim();
+      if (!mobile) { document.getElementById('au-mobile').focus(); return; }
+      const whatsapp = document.getElementById('au-whatsapp').value.trim();
+      const email    = document.getElementById('au-email').value.trim();
+      const artInput = document.getElementById('au-artisan');
+      // Apply ONLY contact details; never overwrite locked/known fields
+      auActiveRecord.phone = mobile;
+      if (whatsapp) auActiveRecord.whatsapp = whatsapp.replace(/\D/g, '');
+      if (email) auActiveRecord.email = email;
+      if (!auActiveRecord.artisanName && artInput && artInput.value.trim()) {
+        auActiveRecord.artisanName = artInput.value.trim();
+      }
+      auActiveRecord.contactProvided = true;
+      persistAUContact(auActiveRecord);
 
-    const selectedProd = GI_PRODUCTS.find(p => p.id === productId);
-    
-    const newArtisan = {
-      id: `au-reg-${Date.now()}`,
-      productId,
-      productName: selectedProd.name,
-      businessName,
-      artisanName,
-      registrationNo,
-      district,
-      phone,
-      whatsapp: whatsapp.replace(/\D/g, ''),
-      email,
-      address,
-      status: 'pending',
-      submittedAt: new Date().toISOString()
-    };
+      auCompleteForm.classList.add('hidden');
+      const isEn = state.language === 'en';
+      dom.regSuccessMsg.innerHTML = isEn
+        ? `Thank you. Contact details for <strong>${auActiveRecord.businessName}</strong> (AU ${auActiveRecord.registrationNo}) have been saved on this device. In a production deployment these would be routed to NABARD UP RO for verification before being published.`
+        : `धन्यवाद। <strong>${auActiveRecord.businessName}</strong> (एयू ${auActiveRecord.registrationNo}) के संपर्क विवरण इस डिवाइस पर सहेजे गए हैं।`;
+      dom.regSuccessCard.classList.remove('hidden');
+      dom.regSuccessCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
 
-    state.authorizedUsers.push(newArtisan);
-    saveUsers();
+  const auBackBtn = document.getElementById('au-back-btn');
+  if (auBackBtn) {
+    auBackBtn.addEventListener('click', () => {
+      auCompleteForm.classList.add('hidden');
+      auLookupForm.classList.remove('hidden');
+      auActiveRecord = null;
+    });
+  }
 
-    dom.artisanRegForm.classList.add('hidden');
-    if (state.language === 'en') {
-      dom.regSuccessMsg.innerHTML = `A local draft for <strong>${businessName}</strong> under <strong>${formatProductName(selectedProd.name)}</strong> has been saved on this device. It has not been transmitted to NABARD or the GI Registry.`;
-    } else {
-      dom.regSuccessMsg.innerHTML = `<strong>${formatProductName(selectedProd.name)}</strong> के अंतर्गत <strong>${businessName}</strong> का मसौदा इस डिवाइस पर सहेजा गया है। इसे नाबार्ड या जीआई रजिस्ट्री को भेजा नहीं गया है।`;
-    }
-    dom.regSuccessCard.classList.remove('hidden');
-  });
-
-  dom.resetRegBtn.addEventListener('click', () => {
-    dom.artisanRegForm.reset();
-    state.dummyFileName = null;
-    dom.uploadFeedback.textContent = '';
-    dom.dragDropZone.style.borderColor = 'var(--panel-border)';
-    dom.regSuccessCard.classList.add('hidden');
-    dom.artisanRegForm.classList.remove('hidden');
-  });
+  if (dom.resetRegBtn) {
+    dom.resetRegBtn.addEventListener('click', () => {
+      dom.regSuccessCard.classList.add('hidden');
+      if (auCompleteForm) auCompleteForm.classList.add('hidden');
+      if (auLookupForm) { auLookupForm.reset(); auLookupForm.classList.remove('hidden'); }
+      if (auLookupError) auLookupError.style.display = 'none';
+      auActiveRecord = null;
+    });
+  }
 
   // 10. Admin Login Verification
   dom.adminLoginForm.addEventListener('submit', (e) => {
@@ -2527,6 +2627,21 @@ function switchTab(tabName) {
   if (tabName === 'registration') {
     updateArtisanRegistrationTabVisibility();
   }
+
+  // The "Weaver Desk" and "Staff Desk" open in place beneath the header, which
+  // can be easy to miss. Scroll the opened panel into view and play a brief
+  // entrance highlight so the user clearly sees they've entered a new desk.
+  if (tabName === 'registration' || tabName === 'admin') {
+    const panel = document.getElementById(`panel-${tabName}`);
+    if (panel) {
+      requestAnimationFrame(() => {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      panel.classList.remove('desk-entrance');
+      void panel.offsetWidth; // restart the animation
+      panel.classList.add('desk-entrance');
+    }
+  }
 }
 
 // ── SVG MAP MOUSEOVER & CLICK LISTENERS ──
@@ -2536,6 +2651,22 @@ function setupMapTooltipEvents() {
   if (!upMap || !tooltip) return;
 
   const hotspots = upMap.querySelectorAll('.map-hotspot');
+
+  // Highlight district boundaries that have a GI product. The boundary paths use
+  // GADM/GeoJSON names which differ from a few product district spellings.
+  const PROD_TO_GEO = {
+    'Bareilley': 'Bareilly', 'Bijnore': 'Bijnor', 'Prayagraj': 'Allahabad',
+    'SK Nagar': 'Sant Kabir Nagar', 'Amroha': 'Jyotiba Phule Nagar', 'Barabanki': 'Bara Banki',
+    'Hapur': 'Ghaziabad', 'Sambhal': 'Moradabad'
+  };
+  const giGeoNames = new Set(
+    [...hotspots].map(h => { const d = h.dataset.district; return (PROD_TO_GEO[d] || d).toLowerCase(); })
+  );
+  upMap.querySelectorAll('.map-district').forEach(path => {
+    const gn = (path.dataset.district || '').toLowerCase();
+    path.classList.add(giGeoNames.has(gn) ? 'has-gi' : 'dim');
+  });
+
   hotspots.forEach((hotspot) => {
     const district = hotspot.dataset.district;
     hotspot.setAttribute('tabindex', '0');
@@ -3233,6 +3364,14 @@ window.copyTemplateText = function(elementId) {
 let _lbImages = [];
 let _lbIndex = 0;
 let _lbCaption = '';
+
+// Open the lightbox for a single image (e.g. the modal hero image, or products
+// that have no multi-image gallery). Avoids needing a global gallery array.
+window.openLightboxSrc = function(src, caption) {
+  if (!src) return;
+  window.__singleLb = [src];
+  window.openLightbox(0, '__singleLb', caption || '');
+};
 
 window.openLightbox = function(startIndex, galleryVarName, caption) {
   _lbImages = window[galleryVarName] || [];
