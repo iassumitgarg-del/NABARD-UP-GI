@@ -1644,7 +1644,15 @@ function compileFilteredCatalogPrint() {
 
   // 3. Compile product detail sheets (compact single-page 2-column layout)
   filtered.forEach((prod) => {
-    const verifiedWeavers = state.authorizedUsers.filter(u => u.productId === prod.id && u.status === 'approved');
+    // Sort so that artisans with contact details (phone/whatsapp) are prioritized to appear in the PDF
+    const verifiedWeavers = state.authorizedUsers
+      .filter((u) => u.productId === prod.id && u.status === 'approved')
+      .sort((a, b) => {
+        const aHas = (a.phone || a.whatsapp) ? 1 : 0;
+        const bHas = (b.phone || b.whatsapp) ? 1 : 0;
+        if (aHas !== bHas) return bHas - aHas;
+        return (a.businessName || '').localeCompare(b.businessName || '');
+      });
     
     // Limit to 3 weavers in print to prevent overflow onto a second page
     const maxWeaversToPrint = 3;
@@ -1669,11 +1677,11 @@ function compileFilteredCatalogPrint() {
       <!-- PRODUCT PAGE -->
       <div class="print-product-page print-page-break">
         <div class="print-product-header">
+          <h2>${prod.name}</h2>
           <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="nabard_logo_ppt.png?v=2.3" alt="NABARD Logo" style="height: 45px; width: auto; object-fit: contain;">
-            <h2>${prod.name}</h2>
+            <span style="font-size: 8pt; color: #c5a059; font-weight: bold; text-transform: uppercase;">${prod.category}</span>
+            <img src="nabard_logo_ppt.png" alt="NABARD Logo" style="height: 38px; width: auto; object-fit: contain; margin-left: 8px;">
           </div>
-          <span>${prod.category}</span>
         </div>
         
         <div class="print-product-grid">
@@ -1712,7 +1720,7 @@ function compileFilteredCatalogPrint() {
                 <td class="font-mono">${prod.registrationNo}</td>
               </tr>
               <tr>
-                <td>Grant Date:</td>
+                <td>GI Registration Date:</td>
                 <td>${prod.registrationDate}</td>
               </tr>
               <tr>

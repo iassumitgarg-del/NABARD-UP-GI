@@ -3140,6 +3140,10 @@ body {
 }
 
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
   body {
     background-color: #ffffff !important;
     color: #000000 !important;
@@ -3170,7 +3174,7 @@ body {
 
   /* Cover Page */
   .print-cover-page {
-    height: 98vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -3229,24 +3233,26 @@ body {
 
   /* Product Page Details */
   .print-product-page {
-    padding: 85px 45px 55px 45px !important;
+    padding: 30px 40px 30px 40px !important;
     box-sizing: border-box;
-    min-height: 98vh;
+    height: 297mm; /* Force absolute A4 height constraint */
+    max-height: 297mm;
+    overflow: hidden;
     background-image: url("ppt_bg3.jpg") !important;
     background-size: cover !important;
     background-position: center !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     position: relative;
-    page-break-inside: avoid;
-    page-break-after: always;
+    page-break-inside: avoid !important;
+    page-break-after: always !important;
     border-bottom: none !important;
   }
 
   .print-product-header {
     border-bottom: 3px solid #0e3a20;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -3254,12 +3260,13 @@ body {
 
   .print-product-header h2 {
     font-family: "Playfair Display", serif;
-    font-size: 20pt;
+    font-size: 18pt;
     color: #0e3a20;
+    margin: 0;
   }
 
   .print-product-header span {
-    font-size: 10pt;
+    font-size: 8pt;
     color: #c5a059;
     font-weight: bold;
     text-transform: uppercase;
@@ -3267,14 +3274,14 @@ body {
 
   .print-product-meta-table {
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border-collapse: collapse;
   }
 
   .print-product-meta-table td {
-    padding: 6px 10px;
+    padding: 4px 8px;
     border: 1px solid #e1dfd8;
-    font-size: 10pt;
+    font-size: 8.5pt;
   }
 
   .print-product-meta-table td:nth-child(odd) {
@@ -3284,71 +3291,71 @@ body {
   }
 
   .print-product-section {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 
   .print-product-section h4 {
-    font-size: 11pt;
+    font-size: 9.5pt;
     color: #0e3a20;
     text-transform: uppercase;
-    margin-bottom: 6px;
+    margin-top: 0;
+    margin-bottom: 4px;
     border-bottom: 1px solid #e1dfd8;
     padding-bottom: 2px;
   }
 
   .print-product-section p {
-    font-size: 10pt;
-    line-height: 1.6;
+    font-size: 8.5pt;
+    line-height: 1.35;
     color: #222222;
+    margin: 0 0 4px 0;
   }
 
   .print-producer-card {
     border: 1px solid #c5a059;
-    padding: 12px;
-    margin-bottom: 10px;
+    padding: 6px 10px;
+    margin-bottom: 4px;
     background-color: #fdfcf9;
   }
 
   .print-producer-card h5 {
-    font-size: 10pt;
+    font-size: 8.5pt;
     font-weight: bold;
     color: #0e3a20;
-    margin-bottom: 2px;
+    margin: 0 0 2px 0;
   }
 
   .print-producer-card p {
-    font-size: 9pt;
-    line-height: 1.4;
+    font-size: 7.5pt;
+    line-height: 1.25;
     color: #444444;
+    margin: 0;
   }
 
   /* Print columns layout to force a single-page structure */
   .print-product-grid {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
-    gap: 24px;
-    margin-top: 15px;
-    page-break-inside: avoid !important;
+    gap: 16px;
+    margin-top: 8px;
   }
 
   .print-col-left {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    page-break-inside: avoid !important;
+    gap: 8px;
   }
 
   .print-col-right {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    page-break-inside: avoid !important;
+    gap: 8px;
   }
 
   /* Product print photo */
   .print-product-photo-wrapper {
     width: 100%;
-    height: 180px;
+    height: 140px;
     border: 1px solid #c5a059;
     border-radius: 4px;
     overflow: hidden;
@@ -3356,8 +3363,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
-    page-break-inside: avoid !important;
+    margin-bottom: 6px;
   }
 
   .print-product-photo {
