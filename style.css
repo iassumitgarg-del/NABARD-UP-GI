@@ -2580,7 +2580,7 @@ body {
 
 /* Real UP district boundaries */
 .map-districts {
-  pointer-events: none; /* clicks handled by hotspots above */
+  /* Enabled for district-level hover & click triggers */
 }
 .map-district {
   fill: hsl(145, 18%, 94%);
@@ -2588,15 +2588,26 @@ body {
   stroke-width: 0.5;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
-  transition: fill 0.3s ease;
+  transition: fill 0.3s ease, stroke 0.3s ease;
 }
 /* Tint districts that have a GI product hotspot */
 .map-district.has-gi {
   fill: hsl(38, 45%, 90%);
   stroke: hsl(38, 45%, 72%);
+  cursor: pointer;
+  pointer-events: auto;
+}
+.map-district.has-gi:hover {
+  fill: hsl(38, 55%, 82%);
+  stroke: hsl(38, 55%, 62%);
+}
+.map-district.map-active {
+  fill: hsl(38, 60%, 75%) !important;
+  stroke: hsl(38, 60%, 55%) !important;
 }
 .map-district.dim {
   fill: hsl(210, 12%, 96%);
+  pointer-events: none; /* Disable pointer actions on non-GI districts */
 }
 
 .map-hotspot {

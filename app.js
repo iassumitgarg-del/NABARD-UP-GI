@@ -955,6 +955,13 @@ function renderProducts() {
     return matchesSearch && matchesCategory && matchesDistrict;
   });
 
+  // Sort alphabetically by product name
+  filtered.sort((a, b) => {
+    const nameA = formatProductName(a.name).toLowerCase();
+    const nameB = formatProductName(b.name).toLowerCase();
+    return nameA.localeCompare(nameB);
+  });
+
   if (filtered.length === 0) {
     dom.productGrid.innerHTML = `
       <div class="loading-spinner">
@@ -1881,6 +1888,16 @@ function setupEventListeners() {
       document.querySelectorAll('.map-hotspot').forEach((hotspot) => {
         hotspot.classList.toggle('active', hotspot.dataset.district === selected);
       });
+      // Highlight matching district path
+      const PROD_TO_GEO = {
+        'Bareilley': 'Bareilly', 'Bijnore': 'Bijnor', 'Prayagraj': 'Allahabad',
+        'SK Nagar': 'Sant Kabir Nagar', 'Amroha': 'Jyotiba Phule Nagar', 'Barabanki': 'Bara Banki',
+        'Hapur': 'Ghaziabad', 'Sambhal': 'Moradabad'
+      };
+      const gn = (PROD_TO_GEO[selected] || selected).toLowerCase();
+      document.querySelectorAll('.map-district').forEach((path) => {
+        path.classList.toggle('map-active', (path.dataset.district || '').toLowerCase() === gn);
+      });
       renderProducts();
     });
   }
@@ -2713,73 +2730,123 @@ function setupMapTooltipEvents() {
     'SK Nagar': 'Sant Kabir Nagar', 'Amroha': 'Jyotiba Phule Nagar', 'Barabanki': 'Bara Banki',
     'Hapur': 'Ghaziabad', 'Sambhal': 'Moradabad'
   };
+
+  // Create reverse mapping for path interactions
+  const GEO_TO_PROD = {};
+  for (const [prodName, geoName] of Object.entries(PROD_TO_GEO)) {
+    GEO_TO_PROD[geoName.toLowerCase()] = prodName;
+  }
+
   const giGeoNames = new Set(
     [...hotspots].map(h => { const d = h.dataset.district; return (PROD_TO_GEO[d] || d).toLowerCase(); })
   );
-  upMap.querySelectorAll('.map-district').forEach(path => {
-    const gn = (path.dataset.district || '').toLowerCase();
-    path.classList.add(giGeoNames.has(gn) ? 'has-gi' : 'dim');
-  });
 
-  hotspots.forEach((hotspot) => {
-    const district = hotspot.dataset.district;
-    hotspot.setAttribute('tabindex', '0');
-    hotspot.setAttribute('role', 'button');
-    hotspot.setAttribute('aria-label', `Filter products from ${district}`);
+  // Helper: Display tooltip with count & product names
+  function showTooltipForDistrict(district, hotspot) {
+    // Find all products matching this district
+    const matchedProds = GI_PRODUCTS.filter(p => p.district.toLowerCase() === district.toLowerCase() || p.district.toLowerCase().includes(district.toLowerCase()));
+    const count = matchedProds.length;
+    const labelText = state.language === 'en' ? 'Registered GIs' : 'पंजीकृत जीआई';
+    
+    // Build list of product names
+    let prodListHtml = '';
+    if (matchedProds.length > 0) {
+      prodListHtml = `<div style="margin-top: 6px; font-size: 8pt; border-top: 1px dashed rgba(255,255,255,0.3); padding-top: 4px; text-align: left; max-width: 220px; line-height: 1.25;">`;
+      matchedProds.forEach(p => {
+        const name = formatProductName(p.name);
+        prodListHtml += `<div style="margin-bottom: 3px; word-break: break-word;">• ${name}</div>`;
+      });
+      prodListHtml += `</div>`;
+    }
 
-    hotspot.addEventListener('mouseenter', () => {
-      // Find count of products in this district
-      const matchedProds = GI_PRODUCTS.filter(p => p.district.toLowerCase().includes(district.toLowerCase()));
-      const count = matchedProds.length;
-      
-      const labelText = state.language === 'en' ? 'Registered GIs' : 'पंजीकृत जीआई';
-      tooltip.innerHTML = `<strong>${district}</strong><br>${count} ${labelText}`;
-      tooltip.classList.remove('hidden');
+    tooltip.innerHTML = `<strong>${district}</strong><br>${count} ${labelText}${prodListHtml}`;
+    tooltip.classList.remove('hidden');
 
-      // Geolocation positioning
-      const rect = upMap.getBoundingClientRect();
-      const wrapperRect = upMap.parentElement.getBoundingClientRect();
-      const cx = Number(hotspot.querySelector('.pulse-core').getAttribute('cx'));
-      const cy = Number(hotspot.querySelector('.pulse-core').getAttribute('cy'));
+    // Geolocation positioning relative to hotspot's pulse-core
+    const rect = upMap.getBoundingClientRect();
+    const wrapperRect = upMap.parentElement.getBoundingClientRect();
+    const pulseCore = hotspot.querySelector('.pulse-core');
+    if (pulseCore) {
+      const cx = Number(pulseCore.getAttribute('cx'));
+      const cy = Number(pulseCore.getAttribute('cy'));
       
       const px = (cx / 600) * rect.width + (rect.left - wrapperRect.left);
       const py = (cy / 400) * rect.height + (rect.top - wrapperRect.top);
 
       tooltip.style.left = `${px}px`;
       tooltip.style.top = `${py}px`;
-    });
+    }
+  }
 
-    hotspot.addEventListener('mouseleave', () => {
-      tooltip.classList.add('hidden');
-    });
+  // Helper: Trigger district selection & filtering
+  function triggerDistrictClick(district, hotspot) {
+    hotspots.forEach(h => h.classList.remove('active'));
+    hotspot.classList.add('active');
 
-    hotspot.addEventListener('click', () => {
-      hotspots.forEach(h => h.classList.remove('active'));
-      hotspot.classList.add('active');
+    // Also highlight the corresponding map district path!
+    upMap.querySelectorAll('.map-district').forEach(p => p.classList.remove('map-active'));
+    const gn = (PROD_TO_GEO[district] || district).toLowerCase();
+    const path = [...upMap.querySelectorAll('.map-district')].find(p => 
+      (p.dataset.district || '').toLowerCase() === gn
+    );
+    if (path) {
+      path.classList.add('map-active');
+    }
 
-      // Filter select dropdown
-      const filterSelect = document.getElementById('district-filter');
-      if (filterSelect) {
-        // Find option matching this district name
-        let matchedVal = 'All';
-        for (let i = 0; i < filterSelect.options.length; i++) {
-          if (filterSelect.options[i].value.toLowerCase() === district.toLowerCase()) {
-            matchedVal = filterSelect.options[i].value;
-            break;
-          }
+    // Filter select dropdown
+    const filterSelect = document.getElementById('district-filter');
+    if (filterSelect) {
+      let matchedVal = 'All';
+      for (let i = 0; i < filterSelect.options.length; i++) {
+        if (filterSelect.options[i].value.toLowerCase() === district.toLowerCase()) {
+          matchedVal = filterSelect.options[i].value;
+          break;
         }
-        filterSelect.value = matchedVal;
       }
-      renderProducts();
+      filterSelect.value = matchedVal;
+    }
+    renderProducts();
 
-      // Scroll to catalog grid
-      document.getElementById('product-grid')?.scrollIntoView({ behavior: 'smooth' });
-    });
+    // Scroll to catalog grid
+    document.getElementById('product-grid')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Setup paths (district boundary boundaries)
+  upMap.querySelectorAll('.map-district').forEach(path => {
+    const gn = (path.dataset.district || '').toLowerCase();
+    const hasGi = giGeoNames.has(gn);
+    path.classList.add(hasGi ? 'has-gi' : 'dim');
+
+    if (hasGi) {
+      const prodName = GEO_TO_PROD[gn] || path.dataset.district;
+      const hotspot = [...hotspots].find(h => 
+        h.dataset.district.toLowerCase() === prodName.toLowerCase() ||
+        h.dataset.district.toLowerCase() === path.dataset.district.toLowerCase()
+      );
+
+      if (hotspot) {
+        path.addEventListener('mouseenter', () => showTooltipForDistrict(hotspot.dataset.district, hotspot));
+        path.addEventListener('mouseleave', () => tooltip.classList.add('hidden'));
+        path.addEventListener('click', () => triggerDistrictClick(hotspot.dataset.district, hotspot));
+      }
+    }
+  });
+
+  // Setup hotspots
+  hotspots.forEach((hotspot) => {
+    const district = hotspot.dataset.district;
+    hotspot.setAttribute('tabindex', '0');
+    hotspot.setAttribute('role', 'button');
+    hotspot.setAttribute('aria-label', `Filter products from ${district}`);
+
+    hotspot.addEventListener('mouseenter', () => showTooltipForDistrict(district, hotspot));
+    hotspot.addEventListener('mouseleave', () => tooltip.classList.add('hidden'));
+    hotspot.addEventListener('click', () => triggerDistrictClick(district, hotspot));
 
     hotspot.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        hotspot.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        triggerDistrictClick(district, hotspot);
       }
     });
   });
