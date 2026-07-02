@@ -1107,7 +1107,7 @@ function renderProducts() {
     
     card.innerHTML = `
       <div class="card-image-wrapper">
-        <img class="card-image${isFallbackImg ? ' is-fallback' : ''}" src="${imgUrl}" alt="${displayName}" loading="lazy">
+        <img class="card-image${isFallbackImg ? ' is-fallback' : ''}" src="${imgUrl}" alt="${displayName}" loading="lazy" onerror="this.onerror=null;this.src='${catImg(prod.category)}'">
         <span class="card-tag">${state.language === 'en' ? prod.category : (prod.category === 'Textile' ? 'कपड़ा' : prod.category === 'Handicraft' ? 'हस्तशिल्प' : prod.category === 'Food Product' ? 'खाद्य उत्पाद' : 'कृषि')}</span>
       </div>
       <div class="card-body">
@@ -1161,6 +1161,14 @@ function populateRegistrationDropdown() {
   });
 }
 
+// Category illustration fallback (always exists) for when a mapped photo 404s.
+function catImg(cat) {
+  return cat === 'Textile' ? 'cat_textiles.png'
+    : cat === 'Handicraft' ? 'cat_handicrafts.png'
+    : cat === 'Food Product' ? 'cat_food.png'
+    : 'cat_agriculture.png';
+}
+
 // ── OPEN PRODUCT DETAIL MODAL ──
 function openProductModal(prod) {
   state.lastFocusedElement = document.activeElement;
@@ -1211,7 +1219,7 @@ function openProductModal(prod) {
   dom.modalContent.innerHTML = `
     <!-- Category Image Banner (click for full-screen view) -->
     <div class="modal-hero-image-wrapper" onclick="openLightboxSrc('${imgUrl}', '${formatProductName(prod.name).replace(/'/g,"&#39;")}')" role="button" tabindex="0" aria-label="View ${formatProductName(prod.name)} full size" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openLightboxSrc('${imgUrl}','${formatProductName(prod.name).replace(/'/g,"&#39;")}');}">
-      <img class="modal-hero-image" src="${imgUrl}" alt="${formatProductName(prod.name)}">
+      <img class="modal-hero-image" src="${imgUrl}" alt="${formatProductName(prod.name)}" onerror="this.onerror=null;this.src='${catImg(prod.category)}'">
       <span class="modal-image-tag">${state.language === 'en' ? prod.category : (prod.category === 'Textile' ? 'कपड़ा' : prod.category === 'Handicraft' ? 'हस्तशिल्प' : prod.category === 'Food Product' ? 'खाद्य उत्पाद' : 'कृषि')}</span>
       <span class="modal-hero-zoom-hint">🔍 ${state.language === 'en' ? 'Click to enlarge' : 'बड़ा करने के लिए क्लिक करें'}</span>
     </div>
@@ -1695,7 +1703,7 @@ function generateArtisanLabelCanvas(artisan, product) {
 }
 
 // ── SMART FILTERED PDF CATALOG COMPILER ──
-function compileFilteredCatalogPrint() {
+async function compileFilteredCatalogPrint() {
   const query = state.searchQuery.toLowerCase().trim();
   const cat = state.selectedCategory;
   const selectedDistrict = document.getElementById('district-filter')?.value || 'All';
@@ -1764,7 +1772,7 @@ function compileFilteredCatalogPrint() {
     let imgUrl = '';
     if (state.imageMapping && state.imageMapping[prod.id]) {
       const me = state.imageMapping[prod.id];
-      imgUrl = me.thumb || me.main || me;
+      imgUrl = me.main || me.thumb || me; // higher-res image for print quality
     }
 
     // Fallback if mapping has no image
@@ -1812,7 +1820,7 @@ function compileFilteredCatalogPrint() {
           <div class="print-col-right">
             <!-- Product Photo -->
             <div class="print-product-photo-wrapper">
-              <img class="print-product-photo" src="${imgUrl}" alt="${prod.name}">
+              <img class="print-product-photo" src="${imgUrl}" alt="${prod.name}" onerror="this.onerror=null;this.src='${catImg(prod.category)}'">
             </div>
 
             <!-- Meta Table -->
@@ -1866,10 +1874,34 @@ function compileFilteredCatalogPrint() {
     `;
   });
 
-  // 4. Fill print template, invoke print, and clean up
+  // 4. Fill print template, WAIT for every image to finish loading, then print.
+  //    (Printing before images load left later pages blank in the PDF.)
+  const btn = document.getElementById('compile-pdf-btn');
+  const btnLabel = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Preparing brochure…'; }
+
   dom.printCatalogTemplate.innerHTML = html;
+
+  const imgs = [...dom.printCatalogTemplate.querySelectorAll('img')];
+  let loaded = 0;
+  await Promise.all(imgs.map(img => {
+    const done = () => { loaded++; if (btn) btn.textContent = `⏳ Loading images ${loaded}/${imgs.length}…`; };
+    if (img.complete && img.naturalWidth) { done(); return Promise.resolve(); }
+    return new Promise(res => {
+      img.addEventListener('load',  () => { done(); res(); }, { once: true });
+      img.addEventListener('error', () => { done(); res(); }, { once: true });
+    });
+  }));
+  // let layout settle before printing
+  await new Promise(r => setTimeout(r, 200));
+
+  // Clean up only AFTER printing, so the content stays intact during the print job
+  const cleanup = () => { dom.printCatalogTemplate.innerHTML = ''; };
+  window.addEventListener('afterprint', cleanup, { once: true });
+  setTimeout(cleanup, 120000); // safety fallback
+
+  if (btn) { btn.disabled = false; btn.textContent = btnLabel || '📥 Download GI Brochure'; }
   window.print();
-  dom.printCatalogTemplate.innerHTML = '';
 }
 
 // ── OPEN INQUIRY MODAL ──
