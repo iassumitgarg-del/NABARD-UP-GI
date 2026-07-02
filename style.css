@@ -5048,3 +5048,13 @@ body.modal-open {
   white-space: nowrap;
 }
 .au-find-link:hover { text-decoration: underline; }
+
+/* ── Admin bulk import (Authorized Users) ── */
+.au-import-card { margin-bottom: 20px; }
+.au-import-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 6px 0 12px; }
+.au-import-controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.au-import-controls input[type=file] { font-size: 0.85rem; }
+.au-import-status { margin-top: 12px; font-size: 0.85rem; line-height: 1.5; }
+.au-import-status .imp-ok { background: hsl(145,40%,96%); border: 1px solid hsl(145,35%,80%); color: var(--green-success); padding: 10px 12px; border-radius: var(--radius-sm); }
+.au-import-status .imp-info { color: var(--text-muted); }
+.au-import-status .imp-warn { color: var(--red-alert); font-weight: 600; }

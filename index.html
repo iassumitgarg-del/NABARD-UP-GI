@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=3.2">
+  <link rel="stylesheet" href="style.css?v=3.3">
 </head>
 <body>
   
@@ -882,6 +882,17 @@ Place: [City Name]</pre>
             </div>
           </div>
 
+          <!-- Bulk Import: Authorized User contacts (admin only) -->
+          <div class="workspace-card au-import-card" id="au-import-card">
+            <h3>📥 Bulk Import — Authorized User Contacts</h3>
+            <p class="au-import-desc">Upload the DDM-completed sheet (<strong>.xlsx</strong> or <strong>.csv</strong>) exported from the GI Registry. Contact details are matched to authorized users by the system <em>Import Key</em>. A phone number is published <strong>only</strong> where <strong>Consent = Yes</strong>; rows without a mobile number are skipped.</p>
+            <div class="au-import-controls">
+              <input type="file" id="au-import-file" accept=".xlsx,.xls,.csv" aria-label="Select completed authorized-user sheet">
+              <button id="au-import-btn" type="button" class="submit-btn" style="width:auto;padding:10px 20px;">Import File</button>
+            </div>
+            <div id="au-import-status" class="au-import-status" role="status" aria-live="polite"></div>
+          </div>
+
           <!-- Split Workspace -->
           <div class="admin-workspace">
             <!-- Left: Pending Applications -->
@@ -1138,6 +1149,6 @@ Place: [City Name]</pre>
     <div class="lightbox-caption" id="lightbox-caption"></div>
   </div>
 
-  <script type="module" src="app.js?v=3.1"></script>
+  <script type="module" src="app.js?v=3.3"></script>
 </body>
 </html>

@@ -409,6 +409,7 @@ function initLocalStorage() {
 
     state.authorizedUsers = Array.from(mergedMap.values());
     mergeAUContacts(); // re-apply locally-saved contact details onto official records
+    mergeBulkAU();     // re-apply admin bulk-imported registry authorized users
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(localUsers));
 
     const storedInqs = localStorage.getItem(INQ_STORAGE_KEY);
@@ -461,6 +462,99 @@ function mergeAUContacts() {
     if (c.artisanName && !u.artisanName) u.artisanName = c.artisanName;
     u.contactProvided = true;
   });
+}
+
+// ── BULK AU IMPORT (admin) — registry-based authorized users with DDM-filled contacts ──
+const BULK_AU_KEY = 'nabard_bulk_au';
+function readBulkAU() { try { return JSON.parse(localStorage.getItem(BULK_AU_KEY)) || {}; } catch { return {}; } }
+function saveBulkAU(map) { try { localStorage.setItem(BULK_AU_KEY, JSON.stringify(map)); } catch (e) { /* quota */ } }
+function mergeBulkAU() {
+  const map = readBulkAU();
+  const keys = Object.keys(map);
+  if (!keys.length) return;
+  // Drop any previously-merged bulk records, then re-add from the store (idempotent)
+  state.authorizedUsers = state.authorizedUsers.filter(u => u.source !== 'bulk-registry');
+  keys.forEach(k => state.authorizedUsers.push(map[k]));
+}
+function normPhone(s) { return (s || '').toString().replace(/[^\d]/g, '').replace(/^91(?=\d{10}$)/, ''); }
+
+function loadSheetJS() {
+  return new Promise((resolve, reject) => {
+    if (window.XLSX) return resolve();
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error('Could not load the Excel parser (check your connection), or save the sheet as CSV and retry.'));
+    document.head.appendChild(s);
+  });
+}
+function parseCSV(text) {
+  const rows = []; let row = [], cur = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (q) { if (ch === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += ch; }
+    else if (ch === '"') q = true;
+    else if (ch === ',') { row.push(cur); cur = ''; }
+    else if (ch === '\n') { row.push(cur); rows.push(row); row = []; cur = ''; }
+    else if (ch !== '\r') cur += ch;
+  }
+  if (cur.length || row.length) { row.push(cur); rows.push(row); }
+  return rows;
+}
+async function parseImportFile(file) {
+  if (/\.csv$/i.test(file.name)) return parseCSV(await file.text());
+  await loadSheetJS();
+  const wb = XLSX.read(await file.arrayBuffer(), { type: 'array' });
+  const ws = wb.Sheets[wb.SheetNames[0]];
+  return XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+}
+function importAURows(rows) {
+  // Locate the header row (contains "Import Key")
+  const norm = s => (s || '').toString().trim().toLowerCase();
+  let hi = rows.findIndex(r => r.some(c => norm(c).includes('import key')));
+  if (hi < 0) hi = rows.findIndex(r => r.some(c => norm(c).includes('registry au no')));
+  if (hi < 0) throw new Error('Could not find the header row (expected the exported NABARD sheet).');
+  const H = rows[hi].map(norm);
+  const col = (...names) => { for (const n of names) { const i = H.findIndex(h => h.includes(n)); if (i >= 0) return i; } return -1; };
+  const c = {
+    key: col('import key'), pid: col('product id'), auno: col('registry au no', 'authorized user no'),
+    name: col('authorized user name'), regAddr: col('registry address'), cluster: col('cluster district'),
+    mobile: col('mobile'), whatsapp: col('whatsapp'), email: col('email'),
+    contact: col('contact / lead', 'lead artisan', 'contact person'),
+    vaddr: col('verified full address'), vdist: col('verified district'), consent: col('consent')
+  };
+  const validPids = new Set(GI_PRODUCTS.map(p => p.id));
+  const map = readBulkAU();
+  let total = 0, added = 0, updated = 0, published = 0, skipped = 0, unmatched = 0;
+  for (let i = hi + 1; i < rows.length; i++) {
+    const r = rows[i]; if (!r || !r.length) continue;
+    const auno = (r[c.auno] || '').toString().trim(); if (!auno) continue;
+    total++;
+    const mobile = normPhone(r[c.mobile]);
+    if (!mobile) { skipped++; continue; } // only complete rows that have a mobile
+    const pid = (r[c.pid] || '').toString().trim();
+    if (pid && !validPids.has(pid)) unmatched++;
+    const key = (c.key >= 0 && r[c.key]) ? r[c.key].toString().trim() : (pid + '|' + auno.replace(/\s/g, ''));
+    const consent = /^y/i.test((r[c.consent] || '').toString().trim());
+    const rec = {
+      id: key, productId: pid, registrationNo: auno.replace(/\s/g, ''),
+      businessName: (r[c.name] || '').toString().trim(),
+      artisanName: (r[c.contact] || '').toString().trim(),
+      district: (r[c.vdist] || r[c.cluster] || '').toString().trim(),
+      address: (r[c.vaddr] || r[c.regAddr] || '').toString().trim(),
+      phone: consent ? mobile : '',
+      whatsapp: consent ? normPhone(r[c.whatsapp]) : '',
+      email: consent ? (r[c.email] || '').toString().trim() : '',
+      mobileOnFile: mobile, consent, contactProvided: consent,
+      status: 'approved', isOfficialRecord: true, source: 'bulk-registry'
+    };
+    if (map[key]) updated++; else added++;
+    if (consent) published++;
+    map[key] = rec;
+  }
+  saveBulkAU(map);
+  mergeBulkAU();
+  return { total, added, updated, published, skipped, unmatched };
 }
 
 // Save back to storage
@@ -2180,6 +2274,33 @@ function setupEventListeners() {
     dom.adminDashboard.classList.add('hidden');
     dom.adminLoginCard.classList.remove('hidden');
   });
+
+  // ── Bulk import of Authorized User contacts (ADMIN ONLY) ──
+  const auImportBtn = document.getElementById('au-import-btn');
+  if (auImportBtn) {
+    auImportBtn.addEventListener('click', async () => {
+      if (!state.adminLoggedIn) return; // admin-only guard
+      const fileEl = document.getElementById('au-import-file');
+      const statusEl = document.getElementById('au-import-status');
+      const file = fileEl && fileEl.files && fileEl.files[0];
+      if (!file) { statusEl.innerHTML = '<span class="imp-warn">Please choose a .xlsx or .csv file first.</span>'; return; }
+      statusEl.innerHTML = '<span class="imp-info">Reading file…</span>';
+      try {
+        const rows = await parseImportFile(file);
+        const res = importAURows(rows);
+        statusEl.innerHTML =
+          `<div class="imp-ok"><strong>Import complete.</strong> ` +
+          `Rows read: ${res.total} · New: ${res.added} · Updated: ${res.updated} · ` +
+          `Contacts published (Consent = Yes): ${res.published} · Skipped (no mobile): ${res.skipped}` +
+          (res.unmatched ? ` · <span class="imp-warn">Unmatched product: ${res.unmatched}</span>` : '') +
+          `</div>`;
+        renderAdminDashboard();
+        renderProducts();
+      } catch (err) {
+        statusEl.innerHTML = `<span class="imp-warn">Import failed: ${err.message}</span>`;
+      }
+    });
+  }
 
   // 11. Verification Simulator Dialog approvals
   dom.registryDismissBtn.addEventListener('click', () => closeModal(dom.registryModal));
