@@ -1296,6 +1296,16 @@ function openProductModal(prod) {
             
             const awardClass = user.award ? 'awardee-card' : '';
 
+            // Direct contact: a published WhatsApp OR mobile number enables a
+            // direct WhatsApp + Call link; otherwise contact is routed via NABARD.
+            const rawNum = (user.whatsapp || user.phone || '').toString().replace(/\D/g, '');
+            const waNum = rawNum ? (rawNum.length === 10 ? '91' + rawNum : rawNum) : '';
+            const inqMsg = `Hello%20${encodeURIComponent(user.businessName)},%20I%20saw%20your%20profile%20on%20the%20NABARD%20Uttar%20Pradesh%20GI%20Digital%20Catalogue.%20I%20would%20like%20to%20inquire%20about%20your%20products.`;
+            const contactHtml = waNum
+              ? `<a href="https://wa.me/${waNum}?text=${inqMsg}" target="_blank" rel="noopener noreferrer" class="whatsapp-link" role="button">${dict.btn_whatsapp}</a>`
+                + `<a href="tel:+${waNum}" class="whatsapp-link call-link" role="button" style="background: var(--green-glow); color: var(--green-primary); border: 1px solid var(--green-primary);">📞 ${state.language === 'en' ? 'Call' : 'कॉल'}</a>`
+              : `<a href="mailto:rmsmed.lucknow@nabard.org?subject=GI%20Producer%20Inquiry%20-%20${encodeURIComponent(user.registrationNo)}&body=I%20wish%20to%20connect%20with%20${encodeURIComponent(user.businessName)}%20(AU%20${user.registrationNo}).%20Please%20share%20their%20contact%20details." class="whatsapp-link" style="background: var(--gold-glow); color: var(--gold-primary); border: 1px solid var(--gold-primary);" role="button">${state.language === 'en' ? '✉ Contact via NABARD' : '✉ नाबार्ड से संपर्क'}</a>`;
+
             return `
               <div class="artisan-item-card ${awardClass}">
                 <div class="artisan-info-col">
@@ -1314,16 +1324,7 @@ function openProductModal(prod) {
                 </div>
                 
                 <div class="artisan-actions">
-                  ${user.whatsapp ? `
-                  <a
-                    href="https://wa.me/${user.whatsapp}?text=Hello%20${encodeURIComponent(user.businessName)},%20I%20saw%20your%20profile%20on%20the%20NABARD%20Uttar%20Pradesh%20GI%20Digital%20Catalogue.%20I%20would%20like%20to%20inquire%20about%20your%20products."
-                    target="_blank"
-                    class="whatsapp-link"
-                    role="button"
-                  >${dict.btn_whatsapp}</a>
-                  ` : `
-                  <a href="mailto:nabard.upro@nabard.org?subject=GI%20Producer%20Inquiry%20-%20${encodeURIComponent(user.registrationNo)}&body=I%20wish%20to%20connect%20with%20${encodeURIComponent(user.businessName)}%20(AU%20${user.registrationNo}).%20Please%20share%20their%20contact%20details." class="whatsapp-link" style="background: var(--gold-glow); color: var(--gold-primary); border: 1px solid var(--gold-primary);" role="button">${state.language === 'en' ? '✉ Contact via NABARD' : '✉ नाबार्ड से संपर्क'}</a>
-                  `}
+                  ${contactHtml}
                   <button class="inq-btn" data-user-idx="${idx}">${dict.btn_inquiry}</button>
                   <button class="qr-btn" data-user-idx="${idx}" style="background-color: var(--gold-glow); color: var(--gold-primary); font-size: 0.72rem; padding: 6px 12px; border: 1px dashed var(--gold-primary); border-radius: var(--radius-sm); font-weight: bold; cursor: pointer;">📥 Download Tag</button>
                 </div>
