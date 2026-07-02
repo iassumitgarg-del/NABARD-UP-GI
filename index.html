@@ -19,12 +19,28 @@
   <meta name="twitter:image" content="https://iassumitgarg-del.github.io/NABARD-UP-GI/hero_banner.png">
   <link rel="canonical" href="https://iassumitgarg-del.github.io/NABARD-UP-GI/">
 
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "NABARD Uttar Pradesh GI Digital Catalogue",
+    "url": "https://iassumitgarg-del.github.io/NABARD-UP-GI/",
+    "description": "Official catalogue of Geographical Indication (GI) products of Uttar Pradesh, supported by NABARD UP Regional Office.",
+    "publisher": {
+      "@type": "GovernmentOrganization",
+      "name": "NABARD Uttar Pradesh Regional Office",
+      "url": "https://www.nabard.org/"
+    }
+  }
+  </script>
+
   <!-- Modern Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=3.5">
+  <link rel="stylesheet" href="style.css?v=3.6">
 </head>
 <body>
   
@@ -849,13 +865,7 @@ Place: [City Name]</pre>
             </div>
             <button type="submit" class="submit-btn trn" data-key="btn_login">Verify Credentials</button>
           </form>
-          
-          <div class="login-divider">
-            <span>OR</span>
-          </div>
-          
-          <button id="quick-access-btn" class="quick-access-btn">Quick Access (Staff Bypass)</button>
-          <p class="login-hint">Demo Passkey: <code>nabard123</code> or <code>admin</code></p>
+          <p class="login-hint" style="margin-top:14px;">Authorised NABARD staff only. Contact the UP Regional Office for access.</p>
         </div>
 
         <!-- Admin Dashboard Panel -->
@@ -1111,13 +1121,13 @@ Place: [City Name]</pre>
     </div>
   </div>
 
-  <!-- ── BLOCKCHAIN BATCH MINTING MODAL ── -->
+  <!-- ── PRODUCT BATCH MODAL (prototype record) ── -->
   <div id="mint-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
     <div class="inquiry-dialog">
       <div class="inquiry-header">
-        <h3 class="trn" data-key="mint_modal_title">Mint New Blockchain Batch</h3>
-        <p class="trn" data-key="mint_modal_desc">Publish a new verified craft batch to the public ledger.</p>
-        <button id="close-mint-btn" class="modal-close" aria-label="Close minting modal (Escape)">×</button>
+        <h3 class="trn" data-key="mint_modal_title">Issue Product Batch (Prototype)</h3>
+        <p class="trn" data-key="mint_modal_desc">Record a traceable product batch in the prototype registry (saved on this device only).</p>
+        <button id="close-mint-btn" class="modal-close" aria-label="Close batch modal (Escape)">×</button>
       </div>
 
       <form id="mint-form" class="inquiry-form">
@@ -1130,7 +1140,7 @@ Place: [City Name]</pre>
           <textarea id="mint-quality" rows="3" required placeholder="e.g. 100% hand-spun wool warp and weft, organic vegetable dye, inspected by Cooperative Lead."></textarea>
         </div>
         <div id="mint-error-msg" class="error-msg" style="color: var(--red-primary); font-size: 0.8rem; font-weight: 600;"></div>
-        <button type="submit" class="submit-btn trn" data-key="btn_mint_ledger">Mint Ledger Record</button>
+        <button type="submit" class="submit-btn trn" data-key="btn_mint_ledger">Issue Product Batch</button>
       </form>
     </div>
   </div>
@@ -1162,6 +1172,6 @@ Place: [City Name]</pre>
     <div class="lightbox-caption" id="lightbox-caption"></div>
   </div>
 
-  <script type="module" src="app.js?v=3.5"></script>
+  <script type="module" src="app.js?v=3.6"></script>
 </body>
 </html>

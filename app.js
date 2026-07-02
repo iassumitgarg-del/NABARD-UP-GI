@@ -1856,7 +1856,7 @@ async function compileFilteredCatalogPrint() {
                     <h5 style="font-size: 8.5pt; margin-bottom: 1px;">${weaver.businessName}</h5>
                     <p style="font-size: 7.5pt; line-height: 1.2; margin: 0;">
                       <strong>Contact:</strong> ${weaver.artisanName} | <strong>ID:</strong> ${weaver.registrationNo}<br>
-                      <strong>Phone/WA:</strong> ${weaver.phone} | 📍 ${weaver.address.split(',')[0]}
+                      ${weaver.phone ? `<strong>Phone/WA:</strong> ${weaver.phone} | ` : ''}📍 ${(weaver.address || '').split(',')[0]}
                     </p>
                   </div>
                 `).join('')}
@@ -2295,12 +2295,14 @@ function setupEventListeners() {
     }
   });
 
-  dom.quickAccessBtn.addEventListener('click', () => {
-    state.adminLoggedIn = true;
-    dom.loginError.textContent = '';
-    dom.adminPassInput.value = '';
-    showAdminDashboard();
-  });
+  if (dom.quickAccessBtn) {
+    dom.quickAccessBtn.addEventListener('click', () => {
+      state.adminLoggedIn = true;
+      dom.loginError.textContent = '';
+      dom.adminPassInput.value = '';
+      showAdminDashboard();
+    });
+  }
 
   dom.adminLogoutBtn.addEventListener('click', () => {
     state.adminLoggedIn = false;
@@ -3225,7 +3227,7 @@ function runProductTrace(queryVal) {
     <div class="trace-loading-container">
       <div class="trace-loader-header">
         <span class="trace-spinner">⚙️</span>
-        <span class="trace-loader-title">${isEn ? 'Connecting to GI Registry Database...' : 'जीआई रजिस्ट्री डेटाबेस से जुड़ रहा है...'}</span>
+        <span class="trace-loader-title">${isEn ? 'Searching published GI records…' : 'प्रकाशित जीआई रिकॉर्ड खोजे जा रहे हैं…'}</span>
       </div>
       <div class="trace-progress-track">
         <div id="trace-bar" class="trace-progress-bar" style="width: 0%;"></div>
@@ -3233,19 +3235,19 @@ function runProductTrace(queryVal) {
       <div class="trace-steps-list">
         <div id="trace-step-1" class="trace-step-item active">
           <span class="trace-step-dot"></span>
-          <span>${isEn ? 'Establishing secure handshake with api.ipindia.gov.in...' : 'api.ipindia.gov.in के साथ सुरक्षित हैंडशेक स्थापित किया जा रहा है...'}</span>
+          <span>${isEn ? 'Reading the number you entered…' : 'दर्ज की गई संख्या पढ़ी जा रही है…'}</span>
         </div>
         <div id="trace-step-2" class="trace-step-item">
           <span class="trace-step-dot"></span>
-          <span>${isEn ? 'Querying Part B Register (Authorized Users Database)...' : 'भाग बी रजिस्टर (अधिकृत उपयोगकर्ता डेटाबेस) को खोजा जा रहा है...'}</span>
+          <span>${isEn ? 'Matching against Authorized User records held in this portal…' : 'इस पोर्टल में मौजूद अधिकृत उपयोगकर्ता रिकॉर्ड से मिलान किया जा रहा है…'}</span>
         </div>
         <div id="trace-step-3" class="trace-step-item">
           <span class="trace-step-dot"></span>
-          <span>${isEn ? 'Resolving cryptographic batch signature...' : 'क्रिप्टोग्राफिक बैच हस्ताक्षर को सत्यापित किया जा रहा है...'}</span>
+          <span>${isEn ? 'Preparing the result…' : 'परिणाम तैयार किया जा रहा है…'}</span>
         </div>
         <div id="trace-step-4" class="trace-step-item">
           <span class="trace-step-dot"></span>
-          <span>${isEn ? 'Registry record validated successfully.' : 'रजिस्ट्री रिकॉर्ड सफलतापूर्वक सत्यापित किया गया।'}</span>
+          <span>${isEn ? 'Done — please confirm current status on the official IP India GI Registry.' : 'पूर्ण — कृपया आधिकारिक आईपी इंडिया जीआई रजिस्ट्री पर वर्तमान स्थिति की पुष्टि करें।'}</span>
         </div>
       </div>
     </div>
