@@ -1,4 +1,4 @@
-import { GI_PRODUCTS, SEED_AUTHORIZED_USERS } from './data.js?v=3.7';
+import { GI_PRODUCTS, SEED_AUTHORIZED_USERS } from './data.js?v=3.8';
 
 // ── STATE MANAGEMENT ──
 let state = {
@@ -468,13 +468,38 @@ function mergeAUContacts() {
 const BULK_AU_KEY = 'nabard_bulk_au';
 function readBulkAU() { try { return JSON.parse(localStorage.getItem(BULK_AU_KEY)) || {}; } catch { return {}; } }
 function saveBulkAU(map) { try { localStorage.setItem(BULK_AU_KEY, JSON.stringify(map)); } catch (e) { /* quota */ } }
+
+// Stable identity for an authorized user = product + its registry AU number.
+// Used to overlay locally-stored contacts onto the matching registry record
+// instead of creating a duplicate row.
+function dedupeKey(u) {
+  return (u.productId || '') + '|' + (u.registrationNo || '').toString().replace(/[^a-z0-9]/gi, '').toUpperCase();
+}
 function mergeBulkAU() {
   const map = readBulkAU();
   const keys = Object.keys(map);
   if (!keys.length) return;
-  // Drop any previously-merged bulk records, then re-add from the store (idempotent)
+  // Remove any standalone bulk rows added on a previous pass (idempotent)
   state.authorizedUsers = state.authorizedUsers.filter(u => u.source !== 'bulk-registry');
-  keys.forEach(k => state.authorizedUsers.push(map[k]));
+  // Index the current (registry) list so imported contacts overlay, not duplicate
+  const idx = {};
+  state.authorizedUsers.forEach(u => { idx[dedupeKey(u)] = u; });
+  keys.forEach(k => {
+    const rec = map[k];
+    const existing = idx[dedupeKey(rec)];
+    if (existing) {
+      // Overlay contact details onto the matching registry record — no duplicate row
+      if (rec.phone) existing.phone = rec.phone;
+      if (rec.whatsapp) existing.whatsapp = rec.whatsapp;
+      if (rec.email) existing.email = rec.email;
+      if (rec.artisanName && !existing.artisanName) existing.artisanName = rec.artisanName;
+      if (rec.consent) existing.consent = true;
+      existing.contactProvided = true;
+    } else {
+      // Genuinely not in the registry list → keep as a standalone entry
+      state.authorizedUsers.push(rec);
+    }
+  });
 }
 function normPhone(s) { return (s || '').toString().replace(/[^\d]/g, '').replace(/^91(?=\d{10}$)/, ''); }
 
