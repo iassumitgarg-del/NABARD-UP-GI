@@ -1,4 +1,4 @@
-import { GI_PRODUCTS, SEED_AUTHORIZED_USERS } from './data.js?v=3.0';
+import { GI_PRODUCTS, SEED_AUTHORIZED_USERS } from './data.js?v=3.7';
 
 // ── STATE MANAGEMENT ──
 let state = {
@@ -2309,6 +2309,41 @@ function setupEventListeners() {
     dom.adminDashboard.classList.add('hidden');
     dom.adminLoginCard.classList.remove('hidden');
   });
+
+  // ── Export current contacts (ADMIN ONLY) — capture any AU with a phone/email ──
+  const auExportBtn = document.getElementById('au-export-btn');
+  if (auExportBtn) {
+    auExportBtn.addEventListener('click', () => {
+      if (!state.adminLoggedIn) return;
+      const withContact = state.authorizedUsers.filter(u =>
+        (u.phone && u.phone.trim()) || (u.whatsapp && u.whatsapp.trim()) || (u.email && u.email.trim()));
+      const statusEl = document.getElementById('au-import-status');
+      if (!withContact.length) {
+        if (statusEl) statusEl.innerHTML = '<span class="imp-info">No contact records found in this browser to export.</span>';
+        return;
+      }
+      const esc = v => { v = (v == null ? '' : String(v)); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+      const cols = ['GI Product','Cluster District','GI App No.','Registry AU No.','Authorized User Name (Registry)','Registry Address','Registry Status','Mobile Number *','WhatsApp Number','Email','Contact / Lead Artisan Name','Verified Full Address','Verified District','Consent to Publish (Yes/No)','Remarks (DDM)','Product ID (system)','Import Key (system)'];
+      const lines = [cols.join(',')];
+      withContact.forEach(u => {
+        const prod = GI_PRODUCTS.find(p => p.id === u.productId);
+        const auno = (u.registrationNo || '').replace(/\s+/g, '');
+        lines.push([
+          prod ? prod.name : slugToDisplayName(u.productId), u.district || '', '', auno,
+          u.businessName || '', u.address || '', u.status || 'approved',
+          u.phone || u.mobileOnFile || '', u.whatsapp || '', u.email || '', u.artisanName || '',
+          '', u.district || '', u.consent ? 'Yes' : (u.phone ? 'Yes' : ''), '',
+          u.productId || '', (u.productId || '') + '|' + auno
+        ].map(esc).join(','));
+      });
+      const blob = new Blob([lines.join('\n')], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'NABARD_existing_contacts.csv';
+      document.body.appendChild(a); a.click(); a.remove();
+      if (statusEl) statusEl.innerHTML = `<span class="imp-ok"><strong>Exported ${withContact.length} contact record(s)</strong> to NABARD_existing_contacts.csv. Keep this safe; re-import it any time to restore contacts.</span>`;
+    });
+  }
 
   // ── Bulk import of Authorized User contacts (ADMIN ONLY) ──
   const auImportBtn = document.getElementById('au-import-btn');
