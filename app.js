@@ -707,7 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
   organizeCatalogueSections();
   
   // 1. Fetch images mappings dynamically
-  fetch('./image_mapping.json?v=2.2')
+  fetch('./image_mapping.json?v=4.0')
     .then(r => r.json())
     .then(mapping => {
       state.imageMapping = mapping;

@@ -8,7 +8,8 @@
       "photos/agra-leather-footwear/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/agra-leather-footwear/thumb.jpg"
+    "thumb": "photos/agra-leather-footwear/thumb.jpg",
+    "source": "ai-photography"
   },
   "aligarh-tala": {
     "main": "photos/aligarh-tala/1.jpg",
@@ -19,7 +20,8 @@
       "photos/aligarh-tala/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/aligarh-tala/thumb.jpg"
+    "thumb": "photos/aligarh-tala/thumb.jpg",
+    "source": "ai-photography"
   },
   "amroha-dholak": {
     "main": "photos/amroha-dholak/1.jpg",
@@ -30,7 +32,8 @@
       "photos/amroha-dholak/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/amroha-dholak/thumb.jpg"
+    "thumb": "photos/amroha-dholak/thumb.jpg",
+    "source": "ai-photography"
   },
   "nizamabad-black-clay-pottery": {
     "main": "photos/nizamabad-black-clay-pottery/1.jpg",
@@ -41,7 +44,8 @@
       "photos/nizamabad-black-clay-pottery/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/nizamabad-black-clay-pottery/thumb.jpg"
+    "thumb": "photos/nizamabad-black-clay-pottery/thumb.jpg",
+    "source": "ai-photography"
   },
   "baghpat-home-furnishings": {
     "main": "photos/baghpat-home-furnishings/1.jpg",
@@ -51,8 +55,9 @@
       "photos/baghpat-home-furnishings/3.jpg",
       "photos/baghpat-home-furnishings/4.jpg"
     ],
-    "maxWidth": 6048,
-    "thumb": "photos/baghpat-home-furnishings/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/baghpat-home-furnishings/thumb.jpg",
+    "source": "ai-photography"
   },
   "banda-shazar-patthar-craft": {
     "main": "photos/banda-shazar-patthar-craft/1.jpg",
@@ -63,7 +68,8 @@
       "photos/banda-shazar-patthar-craft/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/banda-shazar-patthar-craft/thumb.jpg"
+    "thumb": "photos/banda-shazar-patthar-craft/thumb.jpg",
+    "source": "ai-photography"
   },
   "barabanki-handloom": {
     "main": "photos/barabanki-handloom/1.jpg",
@@ -74,17 +80,20 @@
       "photos/barabanki-handloom/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/barabanki-handloom/thumb.jpg"
+    "thumb": "photos/barabanki-handloom/thumb.jpg",
+    "source": "ai-photography"
   },
   "nagina-wood-craft-of-uttar-pradesh": {
-    "main": "photos/nagina-wood-craft-of-uttar-pradesh/2.jpg",
+    "main": "photos/nagina-wood-craft-of-uttar-pradesh/1.jpg",
     "gallery": [
+      "photos/nagina-wood-craft-of-uttar-pradesh/1.jpg",
       "photos/nagina-wood-craft-of-uttar-pradesh/2.jpg",
       "photos/nagina-wood-craft-of-uttar-pradesh/3.jpg",
       "photos/nagina-wood-craft-of-uttar-pradesh/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/nagina-wood-craft-of-uttar-pradesh/thumb.jpg"
+    "thumb": "photos/nagina-wood-craft-of-uttar-pradesh/thumb.jpg",
+    "source": "ai-photography"
   },
   "jalesar-metal-craft": {
     "main": "photos/jalesar-metal-craft/1.jpg",
@@ -95,7 +104,8 @@
       "photos/jalesar-metal-craft/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/jalesar-metal-craft/thumb.jpg"
+    "thumb": "photos/jalesar-metal-craft/thumb.jpg",
+    "source": "ai-photography"
   },
   "ghazipur-wall-hanging": {
     "main": "photos/ghazipur-wall-hanging/1.jpg",
@@ -106,7 +116,8 @@
       "photos/ghazipur-wall-hanging/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/ghazipur-wall-hanging/thumb.jpg"
+    "thumb": "photos/ghazipur-wall-hanging/thumb.jpg",
+    "source": "ai-photography"
   },
   "gorakhpur-terracotta": {
     "main": "photos/gorakhpur-terracotta/1.jpg",
@@ -116,8 +127,9 @@
       "photos/gorakhpur-terracotta/3.jpg",
       "photos/gorakhpur-terracotta/4.jpg"
     ],
-    "maxWidth": 6048,
-    "thumb": "photos/gorakhpur-terracotta/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/gorakhpur-terracotta/thumb.jpg",
+    "source": "ai-photography"
   },
   "hathras-hing": {
     "main": "photos/hathras-hing/1.jpg",
@@ -128,7 +140,8 @@
       "photos/hathras-hing/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/hathras-hing/thumb.jpg"
+    "thumb": "photos/hathras-hing/thumb.jpg",
+    "source": "ai-photography"
   },
   "kalpi-handmade-paper": {
     "main": "photos/kalpi-handmade-paper/1.jpg",
@@ -138,19 +151,19 @@
       "photos/kalpi-handmade-paper/3.jpg",
       "photos/kalpi-handmade-paper/4.jpg"
     ],
-    "maxWidth": 4545,
-    "thumb": "photos/kalpi-handmade-paper/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/kalpi-handmade-paper/thumb.jpg",
+    "source": "ai-photography"
   },
   "bundelkhand-kathiya-gehu-wheat": {
     "main": "photos/bundelkhand-kathiya-gehu-wheat/1.jpg",
     "gallery": [
       "photos/bundelkhand-kathiya-gehu-wheat/1.jpg",
-      "photos/bundelkhand-kathiya-gehu-wheat/2.jpg",
-      "photos/bundelkhand-kathiya-gehu-wheat/3.jpg",
-      "photos/bundelkhand-kathiya-gehu-wheat/4.jpg"
+      "photos/bundelkhand-kathiya-gehu-wheat/2.jpg"
     ],
-    "maxWidth": 3600,
-    "thumb": "photos/bundelkhand-kathiya-gehu-wheat/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/bundelkhand-kathiya-gehu-wheat/thumb.jpg",
+    "source": "ai-photography"
   },
   "mahoba-gaura-patthar": {
     "main": "photos/mahoba-gaura-patthar/1.jpg",
@@ -161,7 +174,8 @@
       "photos/mahoba-gaura-patthar/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/mahoba-gaura-patthar/thumb.jpg"
+    "thumb": "photos/mahoba-gaura-patthar/thumb.jpg",
+    "source": "ai-photography"
   },
   "mainpuri-tarkashi": {
     "main": "photos/mainpuri-tarkashi/1.jpg",
@@ -172,29 +186,28 @@
       "photos/mainpuri-tarkashi/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/mainpuri-tarkashi/thumb.jpg"
+    "thumb": "photos/mainpuri-tarkashi/thumb.jpg",
+    "source": "ai-photography"
   },
   "adamchini-chawal-rice": {
     "main": "photos/adamchini-chawal-rice/1.jpg",
     "gallery": [
       "photos/adamchini-chawal-rice/1.jpg",
-      "photos/adamchini-chawal-rice/2.jpg",
-      "photos/adamchini-chawal-rice/3.jpg",
-      "photos/adamchini-chawal-rice/4.jpg"
+      "photos/adamchini-chawal-rice/2.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/adamchini-chawal-rice/thumb.jpg"
+    "thumb": "photos/adamchini-chawal-rice/thumb.jpg",
+    "source": "ai-photography"
   },
   "chunar-balua-patthar": {
     "main": "photos/chunar-balua-patthar/1.jpg",
     "gallery": [
       "photos/chunar-balua-patthar/1.jpg",
-      "photos/chunar-balua-patthar/2.jpg",
-      "photos/chunar-balua-patthar/3.jpg",
-      "photos/chunar-balua-patthar/4.jpg"
+      "photos/chunar-balua-patthar/2.jpg"
     ],
-    "maxWidth": 4024,
-    "thumb": "photos/chunar-balua-patthar/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/chunar-balua-patthar/thumb.jpg",
+    "source": "ai-photography"
   },
   "chunar-glaze-pottery": {
     "main": "photos/chunar-glaze-pottery/1.jpg",
@@ -205,7 +218,8 @@
       "photos/chunar-glaze-pottery/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/chunar-glaze-pottery/thumb.jpg"
+    "thumb": "photos/chunar-glaze-pottery/thumb.jpg",
+    "source": "ai-photography"
   },
   "mirzapur-handmade-dari": {
     "main": "photos/mirzapur-handmade-dari/1.jpg",
@@ -215,8 +229,9 @@
       "photos/mirzapur-handmade-dari/3.jpg",
       "photos/mirzapur-handmade-dari/4.jpg"
     ],
-    "maxWidth": 6048,
-    "thumb": "photos/mirzapur-handmade-dari/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/mirzapur-handmade-dari/thumb.jpg",
+    "source": "ai-photography"
   },
   "mirzapur-pital-bartan": {
     "main": "photos/mirzapur-pital-bartan/1.jpg",
@@ -227,18 +242,18 @@
       "photos/mirzapur-pital-bartan/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/mirzapur-pital-bartan/thumb.jpg"
+    "thumb": "photos/mirzapur-pital-bartan/thumb.jpg",
+    "source": "ai-photography"
   },
   "muzaffarnagar-gur-jaggery": {
     "main": "photos/muzaffarnagar-gur-jaggery/1.jpg",
     "gallery": [
       "photos/muzaffarnagar-gur-jaggery/1.jpg",
-      "photos/muzaffarnagar-gur-jaggery/2.jpg",
-      "photos/muzaffarnagar-gur-jaggery/3.jpg",
-      "photos/muzaffarnagar-gur-jaggery/4.jpg"
+      "photos/muzaffarnagar-gur-jaggery/2.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/muzaffarnagar-gur-jaggery/thumb.jpg"
+    "thumb": "photos/muzaffarnagar-gur-jaggery/thumb.jpg",
+    "source": "ai-photography"
   },
   "pilibhit-bansuri": {
     "main": "photos/pilibhit-bansuri/1.jpg",
@@ -249,7 +264,8 @@
       "photos/pilibhit-bansuri/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/pilibhit-bansuri/thumb.jpg"
+    "thumb": "photos/pilibhit-bansuri/thumb.jpg",
+    "source": "ai-photography"
   },
   "pratapgarh-aonla": {
     "main": "photos/pratapgarh-aonla/1.jpg",
@@ -260,15 +276,20 @@
       "photos/pratapgarh-aonla/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/pratapgarh-aonla/thumb.jpg"
+    "thumb": "photos/pratapgarh-aonla/thumb.jpg",
+    "source": "ai-photography"
   },
   "sambhal-horn-craft": {
     "main": "photos/sambhal-horn-craft/1.jpg",
     "gallery": [
-      "photos/sambhal-horn-craft/1.jpg"
+      "photos/sambhal-horn-craft/1.jpg",
+      "photos/sambhal-horn-craft/2.jpg",
+      "photos/sambhal-horn-craft/3.jpg",
+      "photos/sambhal-horn-craft/4.jpg"
     ],
-    "maxWidth": 665,
-    "thumb": "photos/sambhal-horn-craft/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/sambhal-horn-craft/thumb.jpg",
+    "source": "ai-photography"
   },
   "bakhira-brassware": {
     "main": "photos/bakhira-brassware/1.jpg",
@@ -279,40 +300,38 @@
       "photos/bakhira-brassware/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/bakhira-brassware/thumb.jpg"
+    "thumb": "photos/bakhira-brassware/thumb.jpg",
+    "source": "ai-photography"
   },
   "banaras-gulaabi-meenakari": {
     "main": "photos/banaras-gulaabi-meenakari/1.jpg",
     "gallery": [
       "photos/banaras-gulaabi-meenakari/1.jpg",
-      "photos/banaras-gulaabi-meenakari/2.jpg",
-      "photos/banaras-gulaabi-meenakari/3.jpg",
-      "photos/banaras-gulaabi-meenakari/4.jpg"
+      "photos/banaras-gulaabi-meenakari/2.jpg"
     ],
-    "maxWidth": 6048,
-    "thumb": "photos/banaras-gulaabi-meenakari/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/banaras-gulaabi-meenakari/thumb.jpg",
+    "source": "ai-photography"
   },
   "banaras-langda-aam-mango": {
     "main": "photos/banaras-langda-aam-mango/1.jpg",
     "gallery": [
       "photos/banaras-langda-aam-mango/1.jpg",
-      "photos/banaras-langda-aam-mango/2.jpg",
-      "photos/banaras-langda-aam-mango/3.jpg",
-      "photos/banaras-langda-aam-mango/4.jpg"
+      "photos/banaras-langda-aam-mango/2.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/banaras-langda-aam-mango/thumb.jpg"
+    "thumb": "photos/banaras-langda-aam-mango/thumb.jpg",
+    "source": "ai-photography"
   },
   "banaras-pan-betel-leaf": {
     "main": "photos/banaras-pan-betel-leaf/1.jpg",
     "gallery": [
       "photos/banaras-pan-betel-leaf/1.jpg",
-      "photos/banaras-pan-betel-leaf/2.jpg",
-      "photos/banaras-pan-betel-leaf/3.jpg",
-      "photos/banaras-pan-betel-leaf/4.jpg"
+      "photos/banaras-pan-betel-leaf/2.jpg"
     ],
-    "maxWidth": 5568,
-    "thumb": "photos/banaras-pan-betel-leaf/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/banaras-pan-betel-leaf/thumb.jpg",
+    "source": "ai-photography"
   },
   "benaras-metal-repouse-craft": {
     "main": "photos/benaras-metal-repouse-craft/1.jpg",
@@ -323,18 +342,18 @@
       "photos/benaras-metal-repouse-craft/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/benaras-metal-repouse-craft/thumb.jpg"
+    "thumb": "photos/benaras-metal-repouse-craft/thumb.jpg",
+    "source": "ai-photography"
   },
   "ramnagar-bhanta-brinjal": {
     "main": "photos/ramnagar-bhanta-brinjal/1.jpg",
     "gallery": [
       "photos/ramnagar-bhanta-brinjal/1.jpg",
-      "photos/ramnagar-bhanta-brinjal/2.jpg",
-      "photos/ramnagar-bhanta-brinjal/3.jpg",
-      "photos/ramnagar-bhanta-brinjal/4.jpg"
+      "photos/ramnagar-bhanta-brinjal/2.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/ramnagar-bhanta-brinjal/thumb.jpg"
+    "thumb": "photos/ramnagar-bhanta-brinjal/thumb.jpg",
+    "source": "ai-photography"
   },
   "varanasi-soft-stone-jali-work": {
     "main": "photos/varanasi-soft-stone-jali-work/1.jpg",
@@ -345,7 +364,8 @@
       "photos/varanasi-soft-stone-jali-work/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/varanasi-soft-stone-jali-work/thumb.jpg"
+    "thumb": "photos/varanasi-soft-stone-jali-work/thumb.jpg",
+    "source": "ai-photography"
   },
   "varanasi-wooden-lacquerware-toys": {
     "main": "photos/varanasi-wooden-lacquerware-toys/1.jpg",
@@ -355,8 +375,9 @@
       "photos/varanasi-wooden-lacquerware-toys/3.jpg",
       "photos/varanasi-wooden-lacquerware-toys/4.jpg"
     ],
-    "maxWidth": 6048,
-    "thumb": "photos/varanasi-wooden-lacquerware-toys/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/varanasi-wooden-lacquerware-toys/thumb.jpg",
+    "source": "ai-photography"
   },
   "banaras-hand-block-print": {
     "main": "photos/banaras-hand-block-print/1.jpg",
@@ -366,8 +387,9 @@
       "photos/banaras-hand-block-print/3.jpg",
       "photos/banaras-hand-block-print/4.jpg"
     ],
-    "maxWidth": 6048,
-    "thumb": "photos/banaras-hand-block-print/thumb.jpg"
+    "maxWidth": 1024,
+    "thumb": "photos/banaras-hand-block-print/thumb.jpg",
+    "source": "ai-photography"
   },
   "banaras-wood-carving": {
     "main": "photos/banaras-wood-carving/1.jpg",
@@ -377,8 +399,9 @@
       "photos/banaras-wood-carving/3.jpg",
       "photos/banaras-wood-carving/4.jpg"
     ],
-    "maxWidth": 6048,
-    "thumb": "photos/banaras-wood-carving/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/banaras-wood-carving/thumb.jpg",
+    "source": "ai-photography"
   },
   "banaras-zardozi": {
     "main": "photos/banaras-zardozi/1.jpg",
@@ -388,18 +411,21 @@
       "photos/banaras-zardozi/3.jpg",
       "photos/banaras-zardozi/4.jpg"
     ],
-    "maxWidth": 6048,
-    "thumb": "photos/banaras-zardozi/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/banaras-zardozi/thumb.jpg",
+    "source": "ai-photography"
   },
   "banaras-metal-casting-craft": {
     "main": "photos/banaras-metal-casting-craft/1.jpg",
     "gallery": [
       "photos/banaras-metal-casting-craft/1.jpg",
       "photos/banaras-metal-casting-craft/2.jpg",
-      "photos/banaras-metal-casting-craft/3.jpg"
+      "photos/banaras-metal-casting-craft/3.jpg",
+      "photos/banaras-metal-casting-craft/4.jpg"
     ],
-    "maxWidth": 1056,
-    "thumb": "photos/banaras-metal-casting-craft/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/banaras-metal-casting-craft/thumb.jpg",
+    "source": "ai-photography"
   },
   "pilkhuwa-hand-block-print-textile": {
     "main": "photos/pilkhuwa-hand-block-print-textile/1.jpg",
@@ -409,19 +435,19 @@
       "photos/pilkhuwa-hand-block-print-textile/3.jpg",
       "photos/pilkhuwa-hand-block-print-textile/4.jpg"
     ],
-    "maxWidth": 3024,
-    "thumb": "photos/pilkhuwa-hand-block-print-textile/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/pilkhuwa-hand-block-print-textile/thumb.jpg",
+    "source": "ai-photography"
   },
   "banaras-lal-bharwamirch-red-pickel-chilli": {
     "main": "photos/banaras-lal-bharwamirch-red-pickel-chilli/1.jpg",
     "gallery": [
       "photos/banaras-lal-bharwamirch-red-pickel-chilli/1.jpg",
-      "photos/banaras-lal-bharwamirch-red-pickel-chilli/2.jpg",
-      "photos/banaras-lal-bharwamirch-red-pickel-chilli/3.jpg",
-      "photos/banaras-lal-bharwamirch-red-pickel-chilli/4.jpg"
+      "photos/banaras-lal-bharwamirch-red-pickel-chilli/2.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/banaras-lal-bharwamirch-red-pickel-chilli/thumb.jpg"
+    "thumb": "photos/banaras-lal-bharwamirch-red-pickel-chilli/thumb.jpg",
+    "source": "ai-photography"
   },
   "banaras-lal-peda": {
     "main": "photos/banaras-lal-peda/1.jpg",
@@ -432,7 +458,8 @@
       "photos/banaras-lal-peda/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/banaras-lal-peda/thumb.jpg"
+    "thumb": "photos/banaras-lal-peda/thumb.jpg",
+    "source": "ai-photography"
   },
   "chiraigaon-karonda-of-varanasi": {
     "main": "photos/chiraigaon-karonda-of-varanasi/1.jpg",
@@ -454,7 +481,8 @@
       "photos/banaras-tabla/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/banaras-tabla/thumb.jpg"
+    "thumb": "photos/banaras-tabla/thumb.jpg",
+    "source": "ai-photography"
   },
   "banaras-shehnai": {
     "main": "photos/banaras-shehnai/1.jpg",
@@ -465,7 +493,8 @@
       "photos/banaras-shehnai/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/banaras-shehnai/thumb.jpg"
+    "thumb": "photos/banaras-shehnai/thumb.jpg",
+    "source": "ai-photography"
   },
   "mathura-sanjhi-craft": {
     "main": "photos/mathura-sanjhi-craft/1.jpg",
@@ -475,8 +504,9 @@
       "photos/mathura-sanjhi-craft/3.jpg",
       "photos/mathura-sanjhi-craft/4.jpg"
     ],
-    "maxWidth": 6108,
-    "thumb": "photos/mathura-sanjhi-craft/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/mathura-sanjhi-craft/thumb.jpg",
+    "source": "ai-photography"
   },
   "moonj-craft-of-uttar-pradesh": {
     "main": "photos/moonj-craft-of-uttar-pradesh/1.jpg",
@@ -486,8 +516,9 @@
       "photos/moonj-craft-of-uttar-pradesh/3.jpg",
       "photos/moonj-craft-of-uttar-pradesh/4.jpg"
     ],
-    "maxWidth": 6048,
-    "thumb": "photos/moonj-craft-of-uttar-pradesh/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/moonj-craft-of-uttar-pradesh/thumb.jpg",
+    "source": "ai-photography"
   },
   "chitrakoot-wooden-craft-toys": {
     "main": "photos/chitrakoot-wooden-craft-toys/1.jpg",
@@ -508,8 +539,9 @@
       "photos/tharu-embroidery-of-uttar-pradesh/3.jpg",
       "photos/tharu-embroidery-of-uttar-pradesh/4.jpg"
     ],
-    "maxWidth": 3754,
-    "thumb": "photos/tharu-embroidery-of-uttar-pradesh/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/tharu-embroidery-of-uttar-pradesh/thumb.jpg",
+    "source": "ai-photography"
   },
   "bareilly-zari-zardoji": {
     "main": "photos/bareilly-zari-zardoji/1.jpg",
@@ -519,8 +551,9 @@
       "photos/bareilly-zari-zardoji/3.jpg",
       "photos/bareilly-zari-zardoji/4.jpg"
     ],
-    "maxWidth": 1024,
-    "thumb": "photos/bareilly-zari-zardoji/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/bareilly-zari-zardoji/thumb.jpg",
+    "source": "ai-photography"
   },
   "sambhal-bone-craft": {
     "main": "photos/sambhal-bone-craft/1.jpg",
@@ -530,8 +563,9 @@
       "photos/sambhal-bone-craft/3.jpg",
       "photos/sambhal-bone-craft/4.jpg"
     ],
-    "maxWidth": 8667,
-    "thumb": "photos/sambhal-bone-craft/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/sambhal-bone-craft/thumb.jpg",
+    "source": "ai-photography"
   },
   "banaras-thandai": {
     "main": "photos/banaras-thandai/1.jpg",
@@ -542,7 +576,8 @@
       "photos/banaras-thandai/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/banaras-thandai/thumb.jpg"
+    "thumb": "photos/banaras-thandai/thumb.jpg",
+    "source": "ai-photography"
   },
   "banaras-tirangi-barfi": {
     "main": "photos/banaras-tirangi-barfi/1.jpg",
@@ -563,7 +598,8 @@
       "photos/jaunpur-imarti/4.jpg"
     ],
     "maxWidth": 6250,
-    "thumb": "photos/jaunpur-imarti/thumb.jpg"
+    "thumb": "photos/jaunpur-imarti/thumb.jpg",
+    "source": "ai-photography"
   },
   "bareilly-cane-bamboo-craft": {
     "main": "photos/bareilly-cane-bamboo-craft/1.jpg",
@@ -573,8 +609,9 @@
       "photos/bareilly-cane-bamboo-craft/3.jpg",
       "photos/bareilly-cane-bamboo-craft/4.jpg"
     ],
-    "maxWidth": 1500,
-    "thumb": "photos/bareilly-cane-bamboo-craft/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/bareilly-cane-bamboo-craft/thumb.jpg",
+    "source": "ai-photography"
   },
   "banaras-mural-painting": {
     "main": "photos/banaras-mural-painting/1.jpg",
@@ -584,8 +621,9 @@
       "photos/banaras-mural-painting/3.jpg",
       "photos/banaras-mural-painting/4.jpg"
     ],
-    "maxWidth": 3840,
-    "thumb": "photos/banaras-mural-painting/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/banaras-mural-painting/thumb.jpg",
+    "source": "ai-photography"
   },
   "meerut-bugle-musical-instrument": {
     "main": "photos/meerut-bugle-musical-instrument/1.jpg",
@@ -595,7 +633,8 @@
       "photos/meerut-bugle-musical-instrument/3.jpg",
       "photos/meerut-bugle-musical-instrument/4.jpg"
     ],
-    "maxWidth": 6144,
-    "thumb": "photos/meerut-bugle-musical-instrument/thumb.jpg"
+    "maxWidth": 6250,
+    "thumb": "photos/meerut-bugle-musical-instrument/thumb.jpg",
+    "source": "ai-photography"
   }
 }
