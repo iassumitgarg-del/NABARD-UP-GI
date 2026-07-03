@@ -303,16 +303,6 @@
     "thumb": "photos/bakhira-brassware/thumb.jpg",
     "source": "ai-photography"
   },
-  "banaras-gulaabi-meenakari": {
-    "main": "photos/banaras-gulaabi-meenakari/1.jpg",
-    "gallery": [
-      "photos/banaras-gulaabi-meenakari/1.jpg",
-      "photos/banaras-gulaabi-meenakari/2.jpg"
-    ],
-    "maxWidth": 6250,
-    "thumb": "photos/banaras-gulaabi-meenakari/thumb.jpg",
-    "source": "ai-photography"
-  },
   "banaras-langda-aam-mango": {
     "main": "photos/banaras-langda-aam-mango/1.jpg",
     "gallery": [
@@ -635,6 +625,18 @@
     ],
     "maxWidth": 6250,
     "thumb": "photos/meerut-bugle-musical-instrument/thumb.jpg",
+    "source": "ai-photography"
+  },
+  "banaras-gulabi-meenakari-craft": {
+    "main": "photos/banaras-gulabi-meenakari-craft/1.jpg",
+    "thumb": "photos/banaras-gulabi-meenakari-craft/thumb.jpg",
+    "gallery": [
+      "photos/banaras-gulabi-meenakari-craft/1.jpg",
+      "photos/banaras-gulabi-meenakari-craft/2.jpg",
+      "photos/banaras-gulabi-meenakari-craft/3.jpg",
+      "photos/banaras-gulabi-meenakari-craft/4.jpg"
+    ],
+    "maxWidth": 6250,
     "source": "ai-photography"
   }
 }
