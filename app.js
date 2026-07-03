@@ -1,4 +1,4 @@
-import { GI_PRODUCTS, SEED_AUTHORIZED_USERS } from './data.js?v=3.8';
+import { GI_PRODUCTS, SEED_AUTHORIZED_USERS } from './data.js?v=3.9';
 
 // ── STATE MANAGEMENT ──
 let state = {
@@ -789,7 +789,8 @@ function animateStatsDashboard() {
   const totalAUs           = OFFICIAL_AU_SANCTIONED;
   const directoryAUs       = approvedAUs.length;
   const registryAUs        = approvedAUs.filter(u => u.isOfficialRecord).length;
-  const portalAUs          = approvedAUs.filter(u => !u.isOfficialRecord).length;
+  // Authorised users "enrolled on portal" = those with a contact number on file
+  const enrolledAUs        = approvedAUs.filter(u => (u.phone && ('' + u.phone).trim()) || (u.whatsapp && ('' + u.whatsapp).trim())).length;
 
   // Push computed values into data-target so the animator picks them up
   const statTargets = {
@@ -809,8 +810,8 @@ function animateStatsDashboard() {
     auSubEl.innerHTML =
       `<span style="font-weight:700;color:rgba(255,255,255,0.9);">${directoryAUs.toLocaleString('en-IN')}</span> ` +
       (state.language === 'hi' ? 'इस निर्देशिका में सूचीबद्ध' : 'detailed in this directory') + `<br>` +
-      `<span style="font-weight:700;color:rgba(255,255,255,0.9);">${portalAUs.toLocaleString('en-IN')}</span> ` +
-      (state.language === 'hi' ? 'पोर्टल पर पंजीकृत' : 'Self-registered on Portal');
+      `<span style="font-weight:700;color:rgba(255,255,255,0.9);">${enrolledAUs.toLocaleString('en-IN')}</span> ` +
+      (state.language === 'hi' ? 'पोर्टल पर नामांकित अधिकृत उपयोगकर्ता' : 'Authorized Users enrolled on portal');
   }
 
   // ── ANIMATE COUNTER ─────────────────────────────────────────────
