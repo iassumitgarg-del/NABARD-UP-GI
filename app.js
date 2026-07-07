@@ -1,4 +1,4 @@
-import { GI_PRODUCTS, SEED_AUTHORIZED_USERS } from './data.js?v=3.9';
+import { GI_PRODUCTS, SEED_AUTHORIZED_USERS } from './data.js?v=4.1';
 
 // ── STATE MANAGEMENT ──
 let state = {
@@ -1289,7 +1289,7 @@ function openProductModal(prod) {
     <div id="modal-tab-sourcing-content" class="modal-tab-content active">
       <!-- Description & Sourcing info -->
       <div class="modal-section" style="margin-top: 10px;">
-        <p>${prod.description}</p>
+        <p>${cleanDescription(prod.description, prod.name)}</p>
       </div>
 
       <div class="modal-section nabard-card-glow">
@@ -1825,7 +1825,7 @@ async function compileFilteredCatalogPrint() {
           <div class="print-col-left">
             <div class="print-product-section">
               <h4>Overview & History</h4>
-              <p>${prod.description}</p>
+              <p>${cleanDescription(prod.description, prod.name)}</p>
               <p style="margin-top: 6px; font-style: italic;"><strong>History:</strong> ${prod.history}</p>
             </div>
 
@@ -2808,15 +2808,19 @@ function slugToDisplayName(slug) {
 function cleanDescription(desc, productName) {
   if (!desc) return '';
   let d = desc.trim();
-  // Remove leading comma/space
-  d = d.replace(/^[,;\s]+/, '');
-  // Remove leading parenthetical like "(sandstone) received..."
-  // If description starts with "(", prefix with product name
-  if (d.startsWith('(')) d = productName + ' ' + d;
+  const name = productName || '';
+  // Descriptions that begin mid-sentence lost their leading product name when
+  // the data was compiled. Restore it so the first line reads complete:
+  //   ", also known as ..."      -> "<Name>, also known as ..."
+  //   "(sandstone) received ..." -> "<Name> (sandstone) received ..."
+  //   "received its GI tag ..."  -> "<Name> received its GI tag ..."
+  if (name && /^[,;]/.test(d)) d = name + ', ' + d.replace(/^[,;]\s*/, '');
+  else if (name && d.startsWith('(')) d = name + ' ' + d;
+  else if (name && /^[a-z]/.test(d)) d = name + ' ' + d;
   // Remove doubled product name at start: "Foo Bar Foo Bar is..." → "Foo Bar is..."
-  if (productName) {
-    const escaped = productName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    d = d.replace(new RegExp('^' + escaped + '\\s+' + escaped + '(\\s)', 'i'), productName + '$1');
+  if (name) {
+    const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    d = d.replace(new RegExp('^' + escaped + '\\s+' + escaped + '(\\s)', 'i'), name + '$1');
   }
   // Re-capitalise first character
   if (d.length) d = d.charAt(0).toUpperCase() + d.slice(1);
